@@ -163,6 +163,33 @@ button{font-family:inherit}
 .pdots i{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.26)}
 .pdots i.on{background:#fff;width:16px;border-radius:3px}
 
+/* their media tiles: size badge, type label, duration, white check */
+.col2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:22px}
+.mcol{display:flex;flex-direction:column;gap:8px}
+.mt{position:relative;border-radius:var(--r-media);overflow:hidden;background:#22104E;border:0;padding:0;cursor:pointer;display:block;width:100%}
+.mt img{width:100%;height:100%;object-fit:cover;display:block}
+.sz{position:absolute;top:8px;left:8px;background:var(--cm-badge);color:#15131C;font:500 11.5px/1 -apple-system,Inter,sans-serif;border-radius:5px;padding:4px 6px}
+.sz.lab{font-size:12.5px;padding:5px 7px}
+.col2.ai .sz.lab{font-size:15px;padding:6px 8px;top:9px;left:9px}
+.du{position:absolute;right:7px;bottom:7px;color:#fff;font-size:10.5px;text-shadow:0 1px 3px rgba(0,0,0,.7)}
+.ck{position:absolute;left:50%;bottom:9px;transform:translateX(-50%) scale(.6);opacity:0;width:28px;height:28px;border-radius:50%;background:#fff;
+  display:grid;place-items:center;transition:.16s;box-shadow:0 1px 4px rgba(0,0,0,.3)}
+.ck svg{width:15px;height:15px}
+.mt.sel .ck{opacity:1;transform:translateX(-50%) scale(1)}
+.col2.ai .ck{display:none}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:22px}
+.grid3 .mt{aspect-ratio:1/1}
+.grid3 .sz.lab{top:6px;left:6px;font-size:11px;padding:4px 6px}
+.grid3 .ck{width:25px;height:25px;bottom:6px}
+.simcard{position:relative;width:84%;height:360px;margin:22px auto 0;border-radius:10px;overflow:hidden}
+.simcard>img{width:100%;height:100%;object-fit:cover;display:block}
+.simcard .sz.lab{top:10px;left:10px;font-size:15px;padding:6px 8px}
+.spick{position:absolute;left:0;right:0;bottom:10px;display:flex;justify-content:center;align-items:center;gap:12px}
+.spick button{width:24px;height:24px;border-radius:50%;border:2.5px solid #fff;background:rgba(0,0,0,.18);padding:0;cursor:pointer;display:grid;place-items:center;transition:.16s}
+.spick button svg{width:19px;height:19px;opacity:0}
+.spick button.on{width:40px;height:40px;background:#fff;border-color:#fff}
+.spick button.on svg{opacity:1}
+
 /* ---------- pick (their Your-clutter list idiom) ---------- */
 .picklist{display:flex;flex-direction:column;gap:10px;margin-top:26px}
 .pickrow{display:flex;align-items:center;gap:13px;width:100%;text-align:left;cursor:pointer;
@@ -476,7 +503,7 @@ button{font-family:inherit}
 <section class="scr" data-id="large">
   <div class="scr-top"><div class="scr-nav"><button class="scr-back" data-back><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button></div></div>
   <div class="scr-body dock">
-    <img class="tourimg" src="img/b-large.png" alt="" style="margin-top:22px">
+    <div class="col2"><div class="mcol"><button class="mt sel" style="height:196px"><img src="img/p-party.jpg" alt=""><span class="sz">18,2 GB</span><span class="du">32:45</span><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></button><button class="mt" style="height:176px"><img src="img/p-dog.jpg" alt=""><span class="sz">2,4 GB</span><span class="du">1:34</span><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></button></div><div class="mcol"><button class="mt sel" style="height:222px"><img src="img/p-photog.jpg" alt="" style="object-position:50% 30%"><span class="sz">16,5 GB</span><span class="du">22:13</span><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></button><button class="mt" style="height:150px"><img src="img/p-sunset.jpg" alt=""><span class="sz">1,1 GB</span><span class="du">0:53</span><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></button></div></div>
     <div class="scr-dockend tourtxt">
       <h2 class="scr-h">Free space fast, cleaning<br>large media &amp; long videos</h2>
       <p class="scr-sub">Delete accidental recordings in your pocket or videos from concerts you never watch</p>
@@ -489,7 +516,7 @@ button{font-family:inherit}
 <section class="scr" data-id="similar">
   <div class="scr-top"><div class="scr-nav"><button class="scr-back" data-back><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button></div></div>
   <div class="scr-body dock">
-    <img class="tourimg sim" src="img/b-similar.png" alt="">
+    <div class="simcard"><img src="img/p-bridge-sq.jpg" alt=""><span class="sz lab">Similar</span><div class="spick" id="spick"><button></button><button class="on"><svg viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></button><button></button></div></div>
     <div class="scr-dockend tourtxt">
       <h2 class="scr-h">Clean up extra similars or<br>exact duplicate photos</h2>
       <p class="scr-sub">Clean up similars in which someone closed their eyes or a bunch of identical duplicates</p>
@@ -502,7 +529,7 @@ button{font-family:inherit}
 <section class="scr" data-id="files">
   <div class="scr-top"><div class="scr-nav"><button class="scr-back" data-back><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button></div></div>
   <div class="scr-body dock">
-    <img class="tourimg sq" src="img/b-files.png" alt="" style="margin-top:22px">
+    <div class="grid3"><button class="mt sel"><img src="img/p-calc.jpg" alt="" style="object-position:88% 50%"><span class="sz lab">Screenshot</span><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></button><button class="mt sel"><img src="img/p-party.jpg" alt=""><span class="sz lab">Blurred</span><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></button><button class="mt sel"><img src="img/p-swing.jpg" alt=""><span class="sz lab">Random</span><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></button><button class="mt"><img src="img/p-dog.jpg" alt=""><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></button><button class="mt sel"><img src="img/p-bridge2.jpg" alt=""><span class="sz lab">Old</span><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></button><button class="mt"><img src="img/p-selfie.jpg" alt="" style="object-position:32% 50%"><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></button><button class="mt sel"><img src="img/p-sunset2.jpg" alt=""><span class="sz lab">Random</span><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></button><button class="mt"><img src="img/p-photog.jpg" alt="" style="object-position:50% 30%"><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></button><button class="mt"><img src="img/p-dogbig.jpg" alt=""><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></button></div>
     <div class="scr-dockend tourtxt">
       <h2 class="scr-h">Remove unnecessary files<br>stored for years</h2>
       <p class="scr-sub">Time to tidy up old screenshots, blurred shots, meter readings, memes or notes</p>
@@ -515,7 +542,7 @@ button{font-family:inherit}
 <section class="scr" data-id="ai">
   <div class="scr-top"><div class="scr-nav"><button class="scr-back" data-back><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button></div></div>
   <div class="scr-body dock">
-    <img class="tourimg sq" src="img/b-ai.png" alt="" style="margin-top:22px">
+    <div class="col2 ai"><button class="mt big" style="height:196px"><img src="img/p-dog.jpg" alt="" style="object-position:50% 20%"><span class="sz lab">Pets</span><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></button><button class="mt big" style="height:196px"><img src="img/p-selfie.jpg" alt="" style="object-position:34% 50%"><span class="sz lab">People</span><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></button><button class="mt big" style="height:196px"><img src="img/p-bridge.jpg" alt="" style="object-position:40% 50%"><span class="sz lab">Architecture</span><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></button><button class="mt big" style="height:196px"><img src="img/p-sunset.jpg" alt=""><span class="sz lab">Travel</span><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></button></div>
     <div class="scr-dockend tourtxt">
       <h2 class="scr-h">Organize library by smart<br>AI categories</h2>
       <p class="scr-sub">Easily navigate the library to avoid missing photos of your pet, travel shots or food routine</p>
@@ -533,10 +560,10 @@ button{font-family:inherit}
   </div>
   <div class="scr-body">
     <div class="picklist" id="pickList">
-      <button class="pickrow" data-v="large"><img src="img/b-large.png" alt=""><span>Large media &amp; long videos<small>Concert clips, pocket recordings</small></span><span class="rad"><svg viewBox="0 0 24 24" fill="none" stroke="#3B0C82" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></button>
-      <button class="pickrow" data-v="similar"><img src="img/b-similar.png" alt="" style="object-position:50% 30%"><span>Similars &amp; duplicates<small>Near-identical shots, exact copies</small></span><span class="rad"><svg viewBox="0 0 24 24" fill="none" stroke="#3B0C82" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></button>
-      <button class="pickrow" data-v="files"><img src="img/b-files.png" alt=""><span>Old screenshots &amp; blurred shots<small>Meter readings, memes, notes</small></span><span class="rad"><svg viewBox="0 0 24 24" fill="none" stroke="#3B0C82" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></button>
-      <button class="pickrow" data-v="ai"><img src="img/b-ai.png" alt=""><span>A messy library<small>Sort it by AI categories</small></span><span class="rad"><svg viewBox="0 0 24 24" fill="none" stroke="#3B0C82" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></button>
+      <button class="pickrow" data-v="large"><img src="img/p-sunset.jpg" alt=""><span>Large media &amp; long videos<small>Concert clips, pocket recordings</small></span><span class="rad"><svg viewBox="0 0 24 24" fill="none" stroke="#3B0C82" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></button>
+      <button class="pickrow" data-v="similar"><img src="img/p-dogbig.jpg" alt=""><span>Similars &amp; duplicates<small>Near-identical shots, exact copies</small></span><span class="rad"><svg viewBox="0 0 24 24" fill="none" stroke="#3B0C82" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></button>
+      <button class="pickrow" data-v="files"><img src="img/p-calc.jpg" alt="" style="object-position:88% 50%"><span>Old screenshots &amp; blurred shots<small>Meter readings, memes, notes</small></span><span class="rad"><svg viewBox="0 0 24 24" fill="none" stroke="#3B0C82" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></button>
+      <button class="pickrow" data-v="ai"><img src="img/p-bridge.jpg" alt="" style="object-position:40% 50%"><span>A messy library<small>Sort it by AI categories</small></span><span class="rad"><svg viewBox="0 0 24 24" fill="none" stroke="#3B0C82" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></button>
     </div>
   </div>
   <div class="scr-foot"><button class="cbtn" data-go="access">Continue</button></div>
@@ -664,7 +691,7 @@ button{font-family:inherit}
     <img class="appicon" src="img/icon.png" alt="" style="margin-top:90px;width:124px;height:124px">
     <h2 class="set-h">You're all set</h2>
     <p class="set-sub" id="setSub">Premium is on. Your clean-up starts with large media &amp; long videos.</p>
-    <div class="setcard"><img id="setImg" src="img/b-large.png" alt=""><span><b id="setB">59.6 GB ready to review</b><span id="setS">Largest videos · Screen recordings</span></span></div>
+    <div class="setcard"><img id="setImg" src="img/p-sunset.jpg" alt=""><span><b id="setB">59.6 GB ready to review</b><span id="setS">Largest videos · Screen recordings</span></span></div>
   </div>
   <div class="scr-foot"><button class="cbtn cyan" id="setCta" disabled>Start Cleaning</button></div>
   <div class="dlgmask" id="notifDlg">
@@ -790,7 +817,7 @@ button{font-family:inherit}
 
     <p class="grp">IMAGERY &amp; FLOW</p>
     <dl>
-      <dt>Feature tour photography</dt><dd>Cropped from your shipping onboarding screens in the supplied frames. The frames are ~1× at display size; your source files would be sharper.</dd>
+      <dt>Feature tour photography</dt><dd>MacPaw's own photos, cut from the CleanMy®Phone iPad screenshots on the App Store (2048 × 2732), so every tile renders at about 2× its display size. The capture frames had the exact tour photos but only at ~1×, which looked blurry. Badges, labels, durations and checks are rebuilt in HTML over the photos. The size and duration figures (18,2 GB, 32:45…) are copied from your shipping tour.</dd>
       <dt>App icon and the 3D lock</dt><dd>macpaw.com's CDN: the 1024px CleanMy®Phone icon and the privacy card artwork.</dd>
       <dt>Every kept screen, headline, button label and both system prompts</dt><dd>The two capture frame strips supplied, reproduced verbatim.</dd>
     </dl>
@@ -813,10 +840,10 @@ var CAT = {
 var CAT_ORDER = ['dup','vid','rec','blur','shot','insta'];
 var SCANNED = 39284;
 var PICK = {
-  large:  {keys:['vid','rec'],  label:'large media & long videos', noun:'videos',      img:'img/b-large.png'},
-  similar:{keys:['dup'],        label:'similars & duplicates',     noun:'duplicates',  img:'img/b-similar.png'},
-  files:  {keys:['shot','blur'],label:'old screenshots & blurred shots', noun:'old shots', img:'img/b-files.png'},
-  ai:     {keys:[],             label:'your library, sorted by AI', noun:'',           img:'img/b-ai.png'}
+  large:  {keys:['vid','rec'],  label:'large media & long videos', noun:'videos',      img:'img/p-sunset.jpg'},
+  similar:{keys:['dup'],        label:'similars & duplicates',     noun:'duplicates',  img:'img/p-dogbig.jpg'},
+  files:  {keys:['shot','blur'],label:'old screenshots & blurred shots', noun:'old shots', img:'img/p-calc.jpg'},
+  ai:     {keys:[],             label:'your library, sorted by AI', noun:'',           img:'img/p-bridge.jpg'}
 };
 var BUB = { dup:[110,178,160], vid:[262,160,118], rec:[58,58,76], blur:[204,56,80], shot:[258,268,72], insta:[150,290,60] };
 var ICONS = {
@@ -1043,6 +1070,8 @@ document.querySelectorAll('[data-pa]').forEach(function(b){ b.addEventListener('
   else { S.access = true; syncScreen(); go('scan'); }
 }); });
 document.getElementById('accessSkip').addEventListener('click', function(){ S.access = false; syncScreen(); go('paywall'); });
+document.querySelectorAll('.mt').forEach(function(b){ if(!b.closest('.ai')) b.addEventListener('click', function(){ b.classList.toggle('sel'); }); });
+document.querySelectorAll('#spick button').forEach(function(b){ b.addEventListener('click', function(){ document.querySelectorAll('#spick button').forEach(function(x){ x.classList.remove('on'); }); b.classList.add('on'); }); });
 document.getElementById('scanOrb').addEventListener('click', function(){ go('result'); });
 document.querySelectorAll('#plans3 .p3').forEach(function(b){ b.addEventListener('click', function(){ S.plan = b.dataset.v; syncScreen(); }); });
 document.querySelectorAll('#offerOpts .oopt').forEach(function(b){ b.addEventListener('click', function(){ S.offerPlan = b.dataset.v; syncScreen(); }); });
@@ -1067,25 +1096,25 @@ welcome:{t:'Welcome to CleanMy®Phone',tags:['kept','new'],
 
 large:{t:'Free space fast',tags:['kept'],
  why:'Their four-screen feature tour is kept whole and in its original order. Each screen already shows a real result (a size, a check, a category), which is the right media choice for a utility. The one addition across the tour is a set of four progress dots above the button, so the user knows it ends.',
- kept:'The collage of concert, fog, beach and sunset clips with the grey “18,2 GB” size badges, white check circles and durations; the two-line light headline; the lavender sub-line; and the frosted violet “I See” button.',
+ kept:'The two-column media collage with the grey “18,2 GB” size badges, durations and white check circles (rebuilt as live tiles: tap one to select it), the two-line light headline, the lavender sub-line, and the frosted violet “I See” button. The photos are MacPaw’s own, taken from the App Store iPad screenshots so they stay sharp at this size.',
  ship:'Screen 5, right after the two system prompts. Identical otherwise.',
  iv:'CR +5–15%',il:'Progress cue on a multi-step tour'},
 
 similar:{t:'Clean up extra similars',tags:['kept'],
  why:'Kept as shipped. The airplane card with the three-dot picker is the clearest “best shot” explanation in the flow.',
- kept:'The single tall photo card with the “Similar” label, the three-circle selector with the centre check, the headline and sub-line verbatim, the back chevron, and the “Alright” button.',
+ kept:'The single tall photo card with the “Similar” label, the three-circle selector with the large centre check (working: tap a circle to move it), the headline and sub-line verbatim, the back chevron, and the “Alright” button.',
  ship:'Screen 6, identical.',
  iv:'Unchanged',il:'Kept as shipped'},
 
 files:{t:'Remove unnecessary files',tags:['kept'],
  why:'Kept as shipped. The 3×3 grid of Screenshot, Blurred, Old and Random tiles shows the whole clutter taxonomy in one glance.',
- kept:'The nine-tile grid with the white type labels and check circles, the copy word for word (“meter readings, memes or notes”), and the “Got It” button.',
+ kept:'The 3×3 grid with the Screenshot, Blurred, Random and Old labels and white check circles (tap a tile to toggle it), the copy word for word (“meter readings, memes or notes”), and the “Got It” button.',
  ship:'Screen 7, identical.',
  iv:'Unchanged',il:'Kept as shipped'},
 
 ai:{t:'Organize by AI categories',tags:['kept'],
  why:'Kept as shipped, including the “Let’s Start” label. That button now leads to one question instead of straight to the paywall.',
- kept:'The Pets, Food, People and Travel 2×2 grid with the white labels, the headline and sub-line verbatim, and the “Let’s Start” button.',
+ kept:'The 2×2 grid of AI category tiles with large white labels, the headline and sub-line verbatim, and the “Let’s Start” button. The labels (Pets, People, Architecture, Travel) come from the app’s own AI Categories screen; there was no sharp food photo to use.',
  ship:'Screen 8, the last screen before the paywall.',
  iv:'Unchanged',il:'Kept as shipped'},
 

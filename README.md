@@ -9,7 +9,7 @@ Every screen has a side panel with the rationale, what was kept from the app and
 ## What was kept
 
 - The splash and the welcome screen, with the legal text word for word
-- All four feature tour screens, in their original order, with their copy and button labels ("I See", "Alright", "Got It", "Let's Start")
+- All four feature tour screens, in their original order, with their copy and button labels ("I See", "Alright", "Got It", "Let's Start"). The collages are rebuilt as live tiles (size badges, labels, checks) over MacPaw's own photos from the App Store iPad screenshots, so they stay sharp
 - The scanning screen with the bubbles and the glowing orb, and the "Your clutter" result list
 - The paywall layout: Premium Plan header, four icon rows, Monthly / Annual / Lifetime cards with the 3-day trial tab, the cyan button, Restore Purchase · Terms · Privacy
 - Both system prompts (notifications and tracking), word for word

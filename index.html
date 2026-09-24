@@ -1,0 +1,1171 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>CleanMy®Phone — onboarding + paywall rebuild</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme: only light;
+  /* ---- CleanMy®Phone, extracted from the supplied frames ---- */
+  --cm-top:#1A0A4C;           /* gradient top, deep indigo */
+  --cm-mid:#3B0C82;
+  --cm-bot:#7C16C6;           /* gradient bottom, vivid violet */
+  --cm-glow:#B3179E;          /* magenta glow on the brand / welcome screens */
+  --cm-pill:rgba(186,140,255,.16);   /* their frosted secondary button */
+  --cm-pill-h:rgba(186,140,255,.26);
+  --cm-cyan:#86DDF9;          /* primary CTA */
+  --cm-cyan-ink:#101426;
+  --cm-cyan-sub:#51637A;
+  --cm-magenta:#E23BC4;       /* "Premium Plan" / "Phone" wordmark */
+  --cm-violet:#B04BF0;
+  --cm-card:#F1E9FA;          /* annual card */
+  --cm-card-side:rgba(226,206,246,.74);
+  --cm-card-ink:#1F1638;
+  --cm-trial-a:#6A8FF0; --cm-trial-b:#3F62D2;   /* 3-DAYS FREE TRIAL tab */
+  --cm-badge:rgba(232,232,238,.9);  /* size badge on media, "18,2 GB" */
+  --cm-txt:#FFFFFF;
+  --cm-txt2:rgba(236,224,255,.78);
+  --cm-txt3:rgba(214,196,245,.56);
+  --cm-alert:rgba(236,214,242,.94); /* their lilac system dialog */
+  --cm-ios-blue:#2F6FEB;
+  --r-ctl:14px;               /* controls */
+  --r-media:9px;              /* imagery */
+  /* ---- presentation shell (deliberately NOT their palette) ---- */
+  --st-bg:#101214;
+  --st-bg2:#181B1E;
+  --panel:#FFFFFF;
+  --panel-ink:#15181B;
+  --panel-muted:#5F666D;
+  --panel-line:#E6E9EC;
+  --accent:#86DDF9;
+  --accent-ink:#0B6A8A;
+  --st-panel:#181B1F;
+  --st-line:#2C3137;
+  --st-ink:#EDEFF2;
+  --st-ink2:#9AA3AD;
+  --st-ink3:#697480;
+  --st-accent:#86DDF9;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:var(--st-bg);color:var(--st-ink);
+  font-family:Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased}
+a{color:var(--st-accent)}
+button{font-family:inherit}
+
+/* ================= shell ================= */
+.st-head{display:flex;align-items:center;gap:20px;padding:14px 26px;border-bottom:1px solid #23272B;
+  background:var(--st-bg2);position:sticky;top:0;z-index:60;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:-.01em;font-size:14px}
+.brand .dot{width:22px;height:22px;flex:none;border-radius:6px;background:var(--accent);display:grid;place-items:center}
+.brand .dot svg{width:13px;height:13px}
+.brand small{display:block;font-weight:500;font-size:11px;color:#8A9299;letter-spacing:0}
+.srcbtn{font:600 12px/1 Inter,sans-serif;color:#8A9299;border:1px solid #2C3136;
+  background:none;padding:8px 12px;border-radius:8px;cursor:pointer;transition:.15s}
+.srcbtn:hover{color:var(--st-ink);border-color:#3D444A}
+.st-tabs{display:flex;gap:4px;background:#23272B;padding:4px;border-radius:10px;margin-left:auto}
+.st-tab{background:none;border:0;padding:7px 15px;border-radius:7px;cursor:pointer;
+  font:600 13px/1 Inter,sans-serif;color:#9AA2A9;transition:.15s}
+.st-tab.on{background:var(--accent);color:#06222D}
+.st-pane{display:none}
+.st-pane.on{display:block}
+.st-stage{display:grid;grid-template-columns:minmax(440px,1fr) minmax(400px,480px);gap:0;
+  align-items:start;min-height:calc(100vh - 58px)}
+@media(max-width:1080px){.st-stage{grid-template-columns:1fr}}
+.st-phonecol{padding:30px 24px 44px;display:flex;flex-direction:column;align-items:center;gap:18px}
+
+/* ================= phone ================= */
+.phone{position:relative;width:390px;height:844px;flex:none;background:#000;border:11px solid #000;
+  border-radius:46px;box-shadow:0 0 0 1.5px #32363B,0 28px 70px rgba(0,0,0,.6)}
+.phone-in{position:absolute;inset:0;border-radius:36px;overflow:hidden;background:var(--cm-top);color-scheme:only light}
+.island{position:absolute;top:9px;left:50%;transform:translateX(-50%);width:104px;height:30px;
+  background:#000;border-radius:16px;z-index:60;pointer-events:none}
+.sbar{position:absolute;top:0;left:0;right:0;height:50px;z-index:55;pointer-events:none;
+  display:flex;align-items:center;justify-content:space-between;padding:14px 26px 0;
+  font:600 13.5px/1 -apple-system,Inter,sans-serif;color:#fff;letter-spacing:.01em}
+.sbar .glyphs{display:flex;gap:5px;align-items:center}
+.sbar svg{display:block}
+.homebar{position:absolute;bottom:7px;left:50%;transform:translateX(-50%);width:134px;height:5px;
+  border-radius:3px;background:rgba(255,255,255,.85);z-index:56;pointer-events:none}
+.screenwrap{position:absolute;inset:0;overflow:hidden;background:var(--cm-top);
+  font-family:-apple-system,'SF Pro Text',Inter,sans-serif;color:var(--cm-txt)}
+
+/* screen shell — the docked footer contract */
+.scr{position:absolute;inset:0;display:flex;flex-direction:column;
+  background:linear-gradient(180deg,var(--cm-top) 0%,var(--cm-mid) 46%,var(--cm-bot) 100%);
+  transform:translateX(100%);transition:transform .36s cubic-bezier(.32,.72,0,1);z-index:10;will-change:transform}
+.scr.is-active{transform:translateX(0);z-index:20}
+.scr.is-past{transform:translateX(-24%)}
+.scr.sheet{transform:translateY(100%)}
+.scr.sheet.is-active{transform:translateY(0);z-index:30}
+.scr.nofx{transition:none}
+.scr-top{flex:none;padding:54px 20px 0;position:relative;z-index:3}
+.scr-body{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;padding:0 20px;scrollbar-width:none;position:relative;z-index:2}
+.scr-body::-webkit-scrollbar{display:none}
+.scr-body.dock{display:flex;flex-direction:column}
+.scr-body.dock>.scr-dockend{margin-top:auto}
+.scr-foot{flex:none;padding:10px 20px 32px;position:relative;z-index:3}
+
+/* their header: thin back chevron, no progress bar */
+.scr-nav{display:flex;align-items:center;height:30px}
+.scr-back{width:30px;height:30px;margin-left:-6px;border:0;background:none;cursor:pointer;color:rgba(226,210,255,.72);display:grid;place-items:center;padding:0}
+.scr-back svg{width:20px;height:20px}
+.scr-x{width:30px;height:30px;margin-left:-6px;border:0;background:none;cursor:pointer;color:rgba(226,210,255,.72);display:grid;place-items:center;padding:0}
+.scr-x svg{width:19px;height:19px}
+
+/* their type: light, large, centred */
+.scr-h{font-size:27px;line-height:1.24;font-weight:400;letter-spacing:-.012em;text-align:center;margin:0;color:#fff}
+.scr-sub{font-size:14.5px;line-height:1.42;color:var(--cm-txt2);margin:12px 0 0;text-align:center;font-weight:400}
+
+/* their buttons */
+.cbtn{display:block;width:100%;border:0;cursor:pointer;border-radius:var(--r-ctl);height:54px;
+  font:400 16px/1 -apple-system,'SF Pro Text',Inter,sans-serif;color:#fff;background:var(--cm-pill);transition:background .15s}
+.cbtn:hover{background:var(--cm-pill-h)}
+.cbtn.cyan{background:var(--cm-cyan);color:var(--cm-cyan-ink);font-weight:500}
+.cbtn.cyan:hover{filter:brightness(1.04)}
+.cbtn.cyan2{height:60px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;
+  background:var(--cm-cyan);color:var(--cm-cyan-ink)}
+.cbtn.cyan2 b{font-weight:500;font-size:17px;line-height:1.1}
+.cbtn.cyan2 span{font-size:12px;color:var(--cm-cyan-sub);line-height:1.1}
+.cbtn.ghost{background:none;height:38px;color:var(--cm-txt3);font-size:14px}
+.cbtn[disabled]{opacity:.45;cursor:default}
+.helper{font-size:10.5px;line-height:1.42;color:var(--cm-txt3);text-align:center;margin:0 0 14px}
+.helper u{color:var(--cm-txt2)}
+
+/* ---------- splash / welcome ---------- */
+.scr--brand{background:radial-gradient(120% 70% at 50% 42%,#A3159F 0%,#6A0C8E 38%,#2B0757 78%,#1C0544 100%)}
+.appicon{width:150px;height:150px;display:block;margin:0 auto}
+.wordmark{font:600 30px/1 -apple-system,'SF Pro Display',Inter,sans-serif;letter-spacing:-.01em;text-align:center;color:#fff}
+.wordmark em{font-style:normal;background:linear-gradient(90deg,#F03CB8,#D03AF0);-webkit-background-clip:text;background-clip:text;color:transparent}
+.bymp{text-align:center;font-size:12.5px;color:rgba(230,210,245,.66);margin-top:12px;font-weight:600;letter-spacing:.01em}
+.splashhint{text-align:center;font-size:11px;color:rgba(230,210,245,.42);margin-top:26px}
+.proofline{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:nowrap;
+  font-size:12px;font-weight:500;color:rgba(240,228,255,.8);margin:0 0 14px;white-space:nowrap}
+.proofline .st{color:#FFC94A;letter-spacing:.5px}
+.proofline s{width:3px;height:3px;border-radius:50%;background:rgba(255,255,255,.35);display:block}
+
+/* ---------- benefit tour ---------- */
+.tourimg{display:block;width:100%;border-radius:var(--r-media);margin-top:24px}
+.tourimg.sq{width:100%;aspect-ratio:1/1;object-fit:cover}
+.tourimg.sim{width:82%;margin:22px auto 0;border-radius:10px}
+.tourtxt{padding-bottom:6px}
+.tourtxt .scr-h{font-size:26px}
+.yourpick{display:flex;justify-content:center;margin:0 0 12px;min-height:24px}
+.yourpick span{display:inline-flex;align-items:center;gap:6px;background:rgba(134,221,249,.16);border:1px solid rgba(134,221,249,.45);
+  color:#BDEBFB;border-radius:20px;padding:4px 11px;font-size:11.5px;font-weight:500}
+.pdots{display:flex;gap:6px;justify-content:center;margin:0 0 16px}
+.pdots i{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.26)}
+.pdots i.on{background:#fff;width:16px;border-radius:3px}
+
+/* ---------- pick (their Your-clutter list idiom) ---------- */
+.picklist{display:flex;flex-direction:column;gap:10px;margin-top:26px}
+.pickrow{display:flex;align-items:center;gap:13px;width:100%;text-align:left;cursor:pointer;
+  background:rgba(186,140,255,.12);border:1.5px solid transparent;border-radius:var(--r-ctl);
+  padding:10px 14px 10px 10px;color:#fff;font:400 15.5px/1.3 -apple-system,'SF Pro Text',Inter,sans-serif;transition:.16s}
+.pickrow:hover{background:rgba(186,140,255,.2)}
+.pickrow.on{border-color:var(--cm-cyan);background:rgba(134,221,249,.12)}
+.pickrow img{width:54px;height:54px;border-radius:8px;object-fit:cover;flex:none}
+.pickrow small{display:block;font-size:12px;color:var(--cm-txt3);margin-top:3px}
+.pickrow .rad{margin-left:auto;width:22px;height:22px;border-radius:50%;border:1.5px solid rgba(255,255,255,.4);flex:none;
+  display:grid;place-items:center}
+.pickrow.on .rad{background:#fff;border-color:#fff}
+.pickrow .rad svg{width:13px;height:13px;opacity:0}
+.pickrow.on .rad svg{opacity:1}
+
+/* ---------- photo access soft prompt ---------- */
+.lock3d{width:150px;height:auto;display:block;margin:10px auto 4px;filter:drop-shadow(0 14px 30px rgba(20,0,50,.5))}
+.privlist{display:flex;flex-direction:column;gap:12px;margin-top:22px;background:rgba(186,140,255,.1);
+  border-radius:var(--r-ctl);padding:16px 16px}
+.privlist div{display:flex;gap:11px;font-size:14px;line-height:1.38;color:rgba(245,238,255,.92)}
+.privlist svg{width:18px;height:18px;flex:none;margin-top:1px}
+
+/* iOS system dialog in their lilac rendering */
+.dlgmask{position:absolute;inset:0;z-index:40;background:rgba(20,4,40,.28);display:none;align-items:center;justify-content:center}
+.dlgmask.on{display:flex}
+.dlg{width:272px;border-radius:14px;background:var(--cm-alert);backdrop-filter:blur(18px);overflow:hidden;
+  color:#1A1024;text-align:center;box-shadow:0 10px 40px rgba(0,0,0,.25);animation:dlgin .22s ease-out}
+@keyframes dlgin{from{transform:scale(1.08);opacity:0}to{transform:scale(1);opacity:1}}
+.dlg-b{padding:18px 16px 15px}
+.dlg-b b{display:block;font-size:16px;line-height:1.3;font-weight:600}
+.dlg-b p{margin:6px 0 0;font-size:12.5px;line-height:1.36}
+.dlg-btns{display:flex;border-top:1px solid rgba(60,40,80,.18)}
+.dlg-btns.col{flex-direction:column}
+.dlg-btns button{flex:1;border:0;background:none;padding:12px 6px;font:400 16px/1.2 -apple-system,Inter,sans-serif;color:var(--cm-ios-blue);cursor:pointer}
+.dlg-btns:not(.col) button+button{border-left:1px solid rgba(60,40,80,.18)}
+.dlg-btns.col button+button{border-top:1px solid rgba(60,40,80,.18)}
+.dlg-btns button.b{font-weight:600}
+
+/* ---------- scan: their bubble "Your clutter" screen ---------- */
+.scan-ic{width:70px;height:70px;display:block;margin:0 auto 6px}
+.scan-h{font-size:26px;font-weight:400;text-align:center;margin:0}
+.scan-c{font-size:12.5px;text-align:center;color:var(--cm-txt2);margin:5px 0 0;font-variant-numeric:tabular-nums}
+.scan-for{font-size:12px;text-align:center;color:#BDEBFB;margin:4px 0 0;min-height:17px}
+.bubbles{position:relative;width:340px;height:318px;margin:10px auto 0}
+.bub{position:absolute;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;
+  background:radial-gradient(circle at 35% 30%,rgba(214,120,255,.62),rgba(150,40,220,.5) 60%,rgba(120,20,200,.42));
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.16),0 6px 24px rgba(60,0,120,.35);
+  transform:translate(-50%,-50%) scale(.05);opacity:0;transition:transform .9s cubic-bezier(.3,1.3,.5,1),opacity .5s}
+.bub.in{transform:translate(-50%,-50%) scale(1);opacity:1}
+.bub b{font-size:12.5px;font-weight:600;line-height:1.15;color:#fff}
+.bub span{font-size:11.5px;color:rgba(255,255,255,.9);font-variant-numeric:tabular-nums}
+.bub.pick{box-shadow:inset 0 0 0 2px rgba(134,221,249,.95),0 0 26px rgba(134,221,249,.35)}
+.scanq{margin:6px auto 0;max-width:318px;background:rgba(186,140,255,.12);border-radius:12px;padding:10px 13px;min-height:74px}
+.scanq p{margin:0;font-size:12px;line-height:1.42;color:rgba(248,240,255,.92)}
+.scanq b{display:block;font-size:11px;font-weight:600;margin-top:5px;color:var(--cm-txt3)}
+.orbwrap{display:flex;justify-content:center;padding-bottom:4px}
+.orb{width:100px;height:100px;border-radius:50%;border:0;cursor:pointer;position:relative;
+  background:radial-gradient(circle at 50% 45%,#D56CF6 0%,#A332E4 55%,#8A1FD0 100%);
+  box-shadow:0 0 0 5px rgba(255,255,255,.92),0 0 38px 10px rgba(255,120,210,.45),0 0 70px rgba(150,80,255,.35);
+  font:500 15px/1 -apple-system,Inter,sans-serif;color:#fff}
+.orb.pulse{animation:orbp 1.6s ease-in-out infinite}
+@keyframes orbp{0%,100%{box-shadow:0 0 0 5px rgba(255,255,255,.92),0 0 30px 6px rgba(255,120,210,.4),0 0 60px rgba(150,80,255,.3)}
+  50%{box-shadow:0 0 0 5px rgba(255,255,255,.92),0 0 46px 14px rgba(255,120,210,.55),0 0 90px rgba(150,80,255,.45)}}
+
+/* ---------- result: their list ---------- */
+.res-tot{text-align:center;margin:8px 0 0}
+.res-tot b{display:block;font-size:40px;font-weight:300;letter-spacing:-.02em;line-height:1.1}
+.res-tot span{font-size:13px;color:var(--cm-txt2)}
+.clist{margin-top:16px;display:flex;flex-direction:column}
+.crow{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.08)}
+.crow:last-child{border-bottom:0}
+.crow .ci{width:40px;height:40px;border-radius:9px;flex:none;display:grid;place-items:center;background:rgba(255,255,255,.1)}
+.crow .ci svg{width:21px;height:21px}
+.crow .cn{flex:1;min-width:0}
+.crow .cn b{display:block;font-size:14.5px;font-weight:500}
+.crow .cn>span{display:block;font-size:12px;color:var(--cm-txt3);margin-top:2px}
+.crow .cg{font-size:14.5px;font-weight:500;font-variant-numeric:tabular-nums;text-align:right}
+.crow .tagp{display:inline-block;font-size:9.5px;font-weight:700;letter-spacing:.06em;background:var(--cm-cyan);color:var(--cm-cyan-ink);
+  border-radius:5px;padding:2px 6px;margin-left:6px;vertical-align:2px}
+.crow.pick .cn b{color:#fff}
+.crow.pick{background:linear-gradient(90deg,rgba(134,221,249,.1),rgba(134,221,249,0));margin:0 -10px;padding:10px 10px;border-radius:10px}
+.res-note{font-size:11px;color:var(--cm-txt3);text-align:center;margin:10px 0 0}
+.orbrow{display:flex;align-items:center;justify-content:center;gap:14px}
+.orbrow .orb{width:86px;height:86px;font-size:15px}
+.orbchip{background:rgba(186,140,255,.24);border-radius:9px;padding:7px 11px;font-size:12.5px;line-height:1.3}
+.orbchip span{display:block;font-size:11px;color:var(--cm-txt2)}
+
+/* ---------- paywall (their composition) ---------- */
+.scr--pay{background:radial-gradient(90% 55% at 100% 100%,rgba(190,40,210,.45),rgba(190,40,210,0) 70%),
+  linear-gradient(180deg,#18093F 0%,#2E0B6E 40%,#5A11A8 72%,#7C18C6 100%)}
+.pp-brand{display:flex;align-items:center;justify-content:center;gap:9px;margin-top:2px}
+.pp-brand img{width:40px;height:40px}
+.pp-brand b{font:400 29px/1 -apple-system,'SF Pro Display',Inter,sans-serif;letter-spacing:-.01em;
+  background:linear-gradient(90deg,#F13FBE,#C84BF2);-webkit-background-clip:text;background-clip:text;color:transparent}
+.pp-h{font-size:26px;line-height:1.2;font-weight:400;text-align:center;margin:9px 0 0;letter-spacing:-.01em}
+.pp-sub{font-size:13px;text-align:center;color:var(--cm-txt2);margin:6px 0 0}
+.feats{display:flex;flex-direction:column;gap:10px;margin:18px 0 0;padding:0 4px}
+.feat{display:flex;align-items:center;gap:16px;font-size:15.5px;font-weight:400;color:#fff}
+.fic{width:38px;height:38px;border-radius:50%;flex:none;display:grid;place-items:center;
+  box-shadow:inset 0 -3px 6px rgba(0,0,0,.18),inset 0 2px 4px rgba(255,255,255,.35)}
+.fic svg{width:19px;height:19px}
+.fic.teal{background:radial-gradient(circle at 35% 30%,#3FD6C4,#119189)}
+.fic.pink{background:radial-gradient(circle at 35% 30%,#FF6CCB,#CF1C94)}
+.fic.grey{background:radial-gradient(circle at 35% 30%,#A7AEBF,#5E6678)}
+.fic.orange{background:radial-gradient(circle at 35% 30%,#FFC35A,#F2711C)}
+.pproof{margin:15px 0 0;text-align:center}
+.pproof .r{font-size:13px;color:#fff;font-weight:500}
+.pproof .r .st{color:#FFC94A;letter-spacing:1px;margin-right:5px}
+.pproof .aw{display:flex;justify-content:center;gap:6px;margin-top:8px;flex-wrap:nowrap}
+.pproof .aw span{font-size:10px;font-weight:600;letter-spacing:.02em;color:rgba(240,228,255,.85);background:rgba(255,255,255,.09);
+  border-radius:20px;padding:4px 8px;white-space:nowrap}
+.plans3{display:grid;grid-template-columns:1fr 1.18fr 1fr;gap:6px;align-items:end;margin-top:14px}
+.p3{border:0;cursor:pointer;text-align:left;border-radius:12px;background:var(--cm-card-side);color:var(--cm-card-ink);
+  padding:11px 10px 11px;height:118px;display:flex;flex-direction:column;justify-content:flex-end;position:relative;transition:.18s;
+  box-shadow:inset 0 0 0 2px transparent}
+.p3 .lab{position:absolute;top:10px;left:10px;font-size:8.5px;font-weight:700;letter-spacing:.06em;color:#3A2A55}
+.p3 .nm{font-size:16.5px;font-weight:400;line-height:1.15}
+.p3 .pr{font-size:16.5px;font-weight:400;line-height:1.2}
+.p3 .pm{font-size:10px;color:#5A4C74;margin-top:3px;font-weight:500;min-height:13px}
+.p3.on{background:var(--cm-card);box-shadow:inset 0 0 0 2px rgba(255,255,255,.95),0 8px 24px rgba(40,0,80,.3)}
+.p3.mid{height:150px;padding:12px 12px}
+.p3.mid .nm{font-size:22px}
+.p3.mid .pr{font-size:24px}
+.p3.mid .lab{top:auto;bottom:auto;position:static;margin-bottom:auto;font-size:9.5px;color:#C2188F;letter-spacing:.07em;padding-top:2px}
+.p3wrap{display:flex;flex-direction:column}
+.trialtab{background:linear-gradient(180deg,var(--cm-trial-a),var(--cm-trial-b));color:#fff;border-radius:12px 12px 0 0;
+  font-size:9.5px;font-weight:700;letter-spacing:.02em;text-align:center;padding:6px 2px 12px;margin-bottom:-8px;white-space:nowrap}
+.p3.mid{border-radius:12px}
+.savep{display:inline-block;font-size:9.5px;font-weight:700;letter-spacing:.03em;color:#fff;background:#C2188F;border-radius:6px;padding:2px 6px;margin-top:5px;white-space:nowrap}
+.bill{font-size:11.5px;color:rgba(240,228,255,.86);text-align:center;margin:0 0 9px}
+.plinks{display:flex;justify-content:center;gap:34px;margin-top:13px}
+.plinks a{font-size:12.5px;color:var(--cm-txt3);text-decoration:none;cursor:pointer}
+
+/* ---------- offer (trial-timeline) ---------- */
+.scr--offer{background:linear-gradient(180deg,#140736 0%,#27095E 55%,#420E86 100%);border-radius:0}
+.grab{width:38px;height:5px;border-radius:3px;background:rgba(255,255,255,.25);margin:0 auto 6px}
+.off-h{font-size:25px;font-weight:400;text-align:center;line-height:1.22;margin:4px 0 0}
+.off-sub{font-size:13.5px;text-align:center;color:var(--cm-txt2);margin:8px 0 0;line-height:1.4}
+.tl{margin:18px 0 0;position:relative;padding-left:4px}
+.tls{display:flex;gap:14px;position:relative;padding-bottom:13px}
+.tls:last-child{padding-bottom:0}
+.tls::before{content:'';position:absolute;left:15px;top:32px;bottom:-2px;width:2px;background:linear-gradient(180deg,rgba(134,221,249,.8),rgba(186,140,255,.35))}
+.tls:last-child::before{display:none}
+.tld{width:32px;height:32px;border-radius:50%;flex:none;display:grid;place-items:center;background:rgba(186,140,255,.22);position:relative;z-index:2}
+.tld svg{width:16px;height:16px}
+.tls.now .tld{background:var(--cm-cyan)}
+.tlt b{display:block;font-size:14.5px;font-weight:600}
+.tlt small{display:block;font-size:11px;color:#BDEBFB;font-weight:600;letter-spacing:.04em;margin-bottom:1px}
+.tlt span{display:block;font-size:12.5px;color:var(--cm-txt2);line-height:1.4;margin-top:2px}
+.oopts{display:flex;flex-direction:column;gap:8px;margin-top:16px}
+.oopt{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;cursor:pointer;text-align:left;
+  background:rgba(186,140,255,.12);border:1.5px solid transparent;border-radius:var(--r-ctl);padding:12px 14px;color:#fff;transition:.16s}
+.oopt.on{border-color:var(--cm-cyan);background:rgba(134,221,249,.1)}
+.oopt b{display:block;font-size:15px;font-weight:500;color:#fff}
+.oopt>span>span{display:block;font-size:11.5px;color:var(--cm-txt3);margin-top:2px}
+.oopt>span>span.otag{display:inline-block;color:var(--cm-cyan-ink);margin:0 0 4px}
+.oopt .pr{text-align:right;flex:none}
+.oopt .pr b{font-size:15px}
+.otag{display:inline-block;font-size:9px;font-weight:700;letter-spacing:.06em;color:var(--cm-cyan-ink);background:var(--cm-cyan);border-radius:5px;padding:2px 6px;margin-bottom:4px}
+.srcnote{font-size:10px;line-height:1.4;color:var(--cm-txt3);text-align:center;margin:12px 0 0}
+.srcnote a{color:#BDEBFB;cursor:pointer}
+
+/* ---------- all set ---------- */
+.set-h{font-size:27px;font-weight:400;text-align:center;margin:26px 0 0}
+.set-sub{font-size:14.5px;color:var(--cm-txt2);text-align:center;margin:10px 0 0;line-height:1.42}
+.setcard{margin:22px 0 0;background:rgba(255,255,255,.08);border-radius:var(--r-ctl);padding:14px 15px;display:flex;align-items:center;gap:13px}
+.setcard img{width:52px;height:52px;border-radius:8px;object-fit:cover}
+.setcard b{display:block;font-size:15px;font-weight:500}
+.setcard span{display:block;font-size:12px;color:var(--cm-txt2);margin-top:2px}
+.hidden{display:none !important}
+
+/* ---------- chips ---------- */
+.chips{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;max-width:490px;margin:0 auto}
+.chip{padding:7px 13px;border-radius:20px;border:1px solid #2C3136;background:#1B1F22;
+  font:600 12px/1 Inter,sans-serif;color:#B9C1C8;cursor:pointer;transition:.14s}
+.chip:hover{color:#E8ECEF;border-color:#3D444A}
+.chip.on{background:var(--accent);border-color:var(--accent);color:#06222D}
+.chip.offerchip{border-color:#3A6878;color:#A6E6FB;background:#142329}
+.chip.offerchip.on{background:var(--accent);border-color:var(--accent);color:#06222D}
+.chiphint{text-align:center;font-size:11px;color:var(--st-ink3);margin:0;max-width:440px}
+
+/* ---------- side panel ---------- */
+.st-panelcol{border-left:1px solid #23272B;background:var(--panel);color:var(--panel-ink);
+  min-height:calc(100vh - 58px);position:sticky;top:58px;max-height:calc(100vh - 58px);overflow-y:auto}
+@media(max-width:1080px){.st-panelcol{position:static;max-height:none;border-left:none;border-top:1px solid #23272B}}
+.pn{padding:26px 28px 60px}
+.pn-n{font-size:10.5px;font-weight:700;letter-spacing:.11em;text-transform:uppercase;color:var(--panel-muted)}
+.pn-t{font-size:22px;font-weight:700;letter-spacing:-.022em;margin:6px 0 4px;color:var(--panel-ink)}
+.pn-tags{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0 20px}
+.tg{font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:4px 9px;border-radius:5px}
+.tg.kept{background:#E8F7ED;color:#146B31}
+.tg.merged{background:#EAF0FB;color:#1B4C9B}
+.tg.moved{background:#FDF2E2;color:#8A5410}
+.tg.cut{background:#FBEAEA;color:#94211F}
+.tg.new{background:#F1EAFB;color:#5A2C9B}
+.pn-sec{margin-bottom:20px}
+.pn-lab{font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--panel-muted);
+  margin-bottom:7px;display:flex;align-items:center;gap:7px}
+.pn-lab::before{content:'';width:14px;height:2px;flex:none;background:var(--accent);border-radius:2px}
+.pn-p{font-size:13.5px;line-height:1.62;color:#2E353B;margin:0}
+.pn-p b{color:var(--panel-ink);font-weight:700}
+.pn-imp{background:#F5F8F6;border:1px solid var(--panel-line);border-left:3px solid var(--accent);
+  border-radius:8px;padding:13px 15px}
+.pn-imp .v{font-size:17px;font-weight:800;letter-spacing:-.02em;color:var(--accent-ink)}
+.pn-imp .l{font-size:11.5px;color:var(--panel-muted);margin-top:2px}
+.pn-foot{font-size:11.5px;line-height:1.55;color:var(--panel-muted);border-top:1px solid var(--panel-line);
+  padding-top:14px;margin-top:22px}
+.pn-foot b{color:var(--panel-ink);font-weight:700}
+.pn-foot a{color:var(--accent-ink);cursor:pointer;text-decoration:underline}
+
+/* ---------- tab 2 ---------- */
+.bawrap{padding:26px 28px 70px;max-width:1280px;margin:0 auto}
+.bahead{font-size:20px;font-weight:800;letter-spacing:-.02em;margin:0}
+.basub{font-size:13px;color:var(--st-ink2);margin:6px 0 18px;max-width:760px}
+.tbl{width:100%;border-collapse:collapse;font-size:13px;background:var(--st-bg2);
+  border:1px solid var(--st-line);border-radius:12px;overflow:hidden}
+.tbl th{text-align:left;padding:12px 14px;font-size:10px;font-weight:800;letter-spacing:.09em;
+  text-transform:uppercase;color:#7A838B;background:#1F2326;border-bottom:1px solid #2A2F33;white-space:nowrap}
+.tbl td{padding:13px 14px;border-bottom:1px solid #23272B;vertical-align:top;color:#C6CDD3;line-height:1.55}
+.tbl tr:last-child td{border-bottom:none}
+.tbl td:first-child{color:#7A838B;font-weight:800;width:30px}
+.tbl td b{color:var(--st-ink);font-weight:700}
+.pri{font-size:10px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:4px 8px;
+  border-radius:4px;white-space:nowrap;display:inline-block}
+.pri.f{background:#4A1F1A;color:#FF9B88}
+.pri.h{background:#4A3712;color:#F5C46A}
+.pri.m{background:#17324F;color:#8FC2F0}
+.pri.l{background:#2A2F33;color:#9AA3AD}
+.imp{color:#7FE3A0;font-weight:600;white-space:nowrap}
+.disc{margin-top:26px;font-size:11.5px;line-height:1.55;color:var(--st-ink3);font-style:italic}
+
+/* ---------- sources modal ---------- */
+.mask{position:fixed;inset:0;background:rgba(6,8,10,.82);z-index:200;display:none;
+  align-items:flex-start;justify-content:center;padding:44px 20px;overflow-y:auto;backdrop-filter:blur(3px)}
+.mask.on{display:flex}
+.modal{background:var(--st-panel);border:1px solid var(--st-line);border-radius:16px;max-width:760px;width:100%;padding:26px 28px;position:relative}
+.modal h3{margin:0;font-size:17px;font-weight:800;letter-spacing:-.02em}
+.modal .close{position:absolute;top:18px;right:20px;background:none;border:0;color:var(--st-ink3);font-size:24px;cursor:pointer;line-height:1}
+.modal dl{margin:18px 0 0}
+.modal dt{font-size:13px;font-weight:700;color:var(--st-ink);margin-top:15px}
+.modal dd{margin:4px 0 0;font-size:12.3px;line-height:1.55;color:var(--st-ink2)}
+.modal dd a{color:var(--st-accent);word-break:break-word}
+.modal .grp{font:800 10px/1 Inter,sans-serif;letter-spacing:.11em;color:var(--st-ink3);
+  margin:26px 0 0;padding-top:16px;border-top:1px solid var(--st-line)}
+</style>
+</head>
+<body>
+
+<div class="st-head">
+  <div class="brand">
+    <span class="dot"><svg viewBox="0 0 24 24" fill="none"><path d="M14.5 3 20 8.5 11 17.5 6.5 13Z" fill="#06222D"/><path d="M6 14l4 4-5.5 2.5L3.5 19Z" fill="#06222D"/></svg></span>
+    <span>CleanMy®Phone — onboarding &amp; paywall rebuild<small>Sequence re-ordered · art direction untouched</small></span>
+  </div>
+  <button class="srcbtn" onclick="openSrc()">Sources &amp; grounding</button>
+  <div class="st-tabs">
+    <button class="st-tab on" data-tab="proto">Prototype</button>
+    <button class="st-tab" data-tab="ba">Before → After</button>
+  </div>
+</div>
+
+<div class="st-wrap">
+<!-- ========================= TAB 1 ========================= -->
+<div class="st-pane on" id="pane-proto">
+<div class="st-stage">
+
+  <div class="st-phonecol">
+    <div class="phone">
+      <div class="phone-in">
+        <div class="island"></div>
+        <div class="sbar">
+          <span>9:41</span>
+          <span class="glyphs">
+            <svg width="17" height="11" viewBox="0 0 17 11" fill="currentColor"><rect x="0" y="7.5" width="3" height="3.5" rx="1"/><rect x="4.5" y="5.5" width="3" height="5.5" rx="1"/><rect x="9" y="3" width="3" height="8" rx="1"/><rect x="13.5" y="0" width="3" height="11" rx="1"/></svg>
+            <svg width="16" height="11" viewBox="0 0 16 11" fill="currentColor"><path d="M8 10.5 5.6 7.9a3.4 3.4 0 0 1 4.8 0L8 10.5Zm0-5.6a6.4 6.4 0 0 0-4.5 1.9L1.7 4.9a9 9 0 0 1 12.6 0l-1.8 1.9A6.4 6.4 0 0 0 8 4.9Z"/></svg>
+            <svg width="25" height="12" viewBox="0 0 25 12" fill="none"><rect x=".6" y=".6" width="20" height="10.8" rx="3" stroke="currentColor" stroke-opacity=".5"/><rect x="2.2" y="2.2" width="16.5" height="7.6" rx="1.8" fill="currentColor"/><path d="M22.3 4.1v3.8a2 2 0 0 0 0-3.8Z" fill="currentColor" fill-opacity=".5"/></svg>
+          </span>
+        </div>
+        <div class="homebar"></div>
+        <div class="screenwrap" id="wrap">
+
+<!-- 1 SPLASH -->
+<section class="scr scr--brand" data-id="splash" id="splash" style="cursor:pointer">
+  <div class="scr-top"></div>
+  <div class="scr-body dock">
+    <div style="margin-top:250px"><img class="appicon" src="img/icon.png" alt=""></div>
+    <div class="scr-dockend" style="padding-bottom:64px">
+      <div class="wordmark">CleanMy<em>Phone</em></div>
+      <div class="bymp">by ◐ MacPaw</div>
+      <div class="splashhint">Tap to continue</div>
+    </div>
+  </div>
+</section>
+
+<!-- 2 WELCOME -->
+<section class="scr scr--brand" data-id="welcome">
+  <div class="scr-top"></div>
+  <div class="scr-body dock">
+    <div style="margin-top:228px"><img class="appicon" src="img/icon.png" alt=""></div>
+    <div class="scr-dockend">
+      <h2 class="scr-h" style="font-size:28px">Welcome to<br>CleanMy®Phone</h2>
+    </div>
+  </div>
+  <div class="scr-foot">
+    <div class="proofline" style="margin-top:16px"><span><span class="st">★</span> 4.6 · 23K ratings</span><s></s><span>7M downloads</span><s></s><span>App of the Day</span></div>
+    <p class="helper">By continuing, you agree to our <u>Terms of Use</u>. To learn more about how we collect, use, share and protect your personal data, please see our <u>Privacy Policy</u>.</p>
+    <button class="cbtn cyan" data-go="large">Continue</button>
+  </div>
+</section>
+
+<!-- 3 LARGE MEDIA -->
+<section class="scr" data-id="large">
+  <div class="scr-top"><div class="scr-nav"><button class="scr-back" data-back><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button></div></div>
+  <div class="scr-body dock">
+    <img class="tourimg" src="img/b-large.png" alt="" style="margin-top:22px">
+    <div class="scr-dockend tourtxt">
+      <h2 class="scr-h">Free space fast, cleaning<br>large media &amp; long videos</h2>
+      <p class="scr-sub">Delete accidental recordings in your pocket or videos from concerts you never watch</p>
+    </div>
+  </div>
+  <div class="scr-foot"><div class="pdots"><i class="on"></i><i></i><i></i><i></i></div><button class="cbtn" data-go="similar">I See</button></div>
+</section>
+
+<!-- 4 SIMILARS -->
+<section class="scr" data-id="similar">
+  <div class="scr-top"><div class="scr-nav"><button class="scr-back" data-back><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button></div></div>
+  <div class="scr-body dock">
+    <img class="tourimg sim" src="img/b-similar.png" alt="">
+    <div class="scr-dockend tourtxt">
+      <h2 class="scr-h">Clean up extra similars or<br>exact duplicate photos</h2>
+      <p class="scr-sub">Clean up similars in which someone closed their eyes or a bunch of identical duplicates</p>
+    </div>
+  </div>
+  <div class="scr-foot"><div class="pdots"><i></i><i class="on"></i><i></i><i></i></div><button class="cbtn" data-go="files">Alright</button></div>
+</section>
+
+<!-- 5 OLD FILES -->
+<section class="scr" data-id="files">
+  <div class="scr-top"><div class="scr-nav"><button class="scr-back" data-back><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button></div></div>
+  <div class="scr-body dock">
+    <img class="tourimg sq" src="img/b-files.png" alt="" style="margin-top:22px">
+    <div class="scr-dockend tourtxt">
+      <h2 class="scr-h">Remove unnecessary files<br>stored for years</h2>
+      <p class="scr-sub">Time to tidy up old screenshots, blurred shots, meter readings, memes or notes</p>
+    </div>
+  </div>
+  <div class="scr-foot"><div class="pdots"><i></i><i></i><i class="on"></i><i></i></div><button class="cbtn" data-go="ai">Got It</button></div>
+</section>
+
+<!-- 6 AI CATEGORIES -->
+<section class="scr" data-id="ai">
+  <div class="scr-top"><div class="scr-nav"><button class="scr-back" data-back><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button></div></div>
+  <div class="scr-body dock">
+    <img class="tourimg sq" src="img/b-ai.png" alt="" style="margin-top:22px">
+    <div class="scr-dockend tourtxt">
+      <h2 class="scr-h">Organize library by smart<br>AI categories</h2>
+      <p class="scr-sub">Easily navigate the library to avoid missing photos of your pet, travel shots or food routine</p>
+    </div>
+  </div>
+  <div class="scr-foot"><div class="pdots"><i></i><i></i><i></i><i class="on"></i></div><button class="cbtn" data-go="pick">Let's Start</button></div>
+</section>
+
+<!-- 7 PICK -->
+<section class="scr" data-id="pick">
+  <div class="scr-top">
+    <div class="scr-nav"><button class="scr-back" data-back><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button></div>
+    <h2 class="scr-h" style="margin-top:14px">What should we<br>clear first?</h2>
+    <p class="scr-sub">We'll start the scan there. You can clean everything later.</p>
+  </div>
+  <div class="scr-body">
+    <div class="picklist" id="pickList">
+      <button class="pickrow" data-v="large"><img src="img/b-large.png" alt=""><span>Large media &amp; long videos<small>Concert clips, pocket recordings</small></span><span class="rad"><svg viewBox="0 0 24 24" fill="none" stroke="#3B0C82" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></button>
+      <button class="pickrow" data-v="similar"><img src="img/b-similar.png" alt="" style="object-position:50% 30%"><span>Similars &amp; duplicates<small>Near-identical shots, exact copies</small></span><span class="rad"><svg viewBox="0 0 24 24" fill="none" stroke="#3B0C82" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></button>
+      <button class="pickrow" data-v="files"><img src="img/b-files.png" alt=""><span>Old screenshots &amp; blurred shots<small>Meter readings, memes, notes</small></span><span class="rad"><svg viewBox="0 0 24 24" fill="none" stroke="#3B0C82" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></button>
+      <button class="pickrow" data-v="ai"><img src="img/b-ai.png" alt=""><span>A messy library<small>Sort it by AI categories</small></span><span class="rad"><svg viewBox="0 0 24 24" fill="none" stroke="#3B0C82" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></button>
+    </div>
+  </div>
+  <div class="scr-foot"><button class="cbtn" data-go="access">Continue</button></div>
+</section>
+
+<!-- 8 PHOTO ACCESS -->
+<section class="scr" data-id="access">
+  <div class="scr-top">
+    <div class="scr-nav"><button class="scr-back" data-back><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button></div>
+  </div>
+  <div class="scr-body">
+    <img class="lock3d" src="img/lock3d.png" alt="">
+    <h2 class="scr-h">Scan your library,<br>right on this iPhone</h2>
+    <p class="scr-sub" id="accessSub">To find your large videos, CleanMy®Phone needs access to Photos.</p>
+    <div class="privlist">
+      <div><svg viewBox="0 0 24 24" fill="none" stroke="#86DDF9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M10.5 18.5h3"/></svg><span>Works fully on-device</span></div>
+      <div><svg viewBox="0 0 24 24" fill="none" stroke="#86DDF9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4m0 0-4 4m4-4 4 4"/><path d="M4 20h16"/><path d="M3 3l18 18"/></svg><span>Doesn't save or upload your pictures anywhere</span></div>
+      <div><svg viewBox="0 0 24 24" fill="none" stroke="#86DDF9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span>You decide what's removed. Anything deleted by mistake is in Recently Deleted</span></div>
+    </div>
+  </div>
+  <div class="scr-foot"><button class="cbtn cyan" id="accessBtn">Allow Access to Photos</button><button class="cbtn ghost" id="accessSkip">Not now</button></div>
+  <div class="dlgmask" id="photoDlg">
+    <div class="dlg">
+      <div class="dlg-b"><b>“CleanMy®Phone” Would Like Full Access to Your Photo Library</b><p>Your library is scanned on this iPhone to find clutter. Nothing is uploaded.</p></div>
+      <div class="dlg-btns col"><button data-pa="limit">Limit Access…</button><button data-pa="full" class="b">Allow Full Access</button><button data-pa="deny">Don't Allow</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- 9 SCAN -->
+<section class="scr" data-id="scan">
+  <div class="scr-top" style="padding-top:58px">
+    <img class="scan-ic" src="img/icon.png" alt="">
+    <h2 class="scan-h">Your clutter</h2>
+    <p class="scan-c" id="scanC">0 / 39,284 scanned</p>
+    <p class="scan-for" id="scanFor">Starting with large media &amp; long videos</p>
+  </div>
+  <div class="scr-body" style="overflow:hidden">
+    <div class="bubbles" id="bubbles"></div>
+    <div class="scanq"><p id="qText">—</p><b id="qWho">—</b></div>
+  </div>
+  <div class="scr-foot" style="padding-bottom:30px"><div class="orbwrap"><button class="orb pulse" id="scanOrb">Scanning</button></div></div>
+</section>
+
+<!-- 10 RESULT -->
+<section class="scr" data-id="result">
+  <div class="scr-top">
+    <div class="scr-nav" style="justify-content:space-between"><button class="scr-back" data-back><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button></div>
+    <img class="scan-ic" src="img/icon.png" alt="" style="width:58px;height:58px;margin-top:-26px">
+    <h2 class="scan-h">Your clutter</h2>
+    <div class="res-tot"><b id="resTot">167.9 GB</b><span id="resSub">you can free across 6,119 items</span></div>
+  </div>
+  <div class="scr-body">
+    <div class="clist" id="clist"></div>
+    <p class="res-note">Sample library shown. In the app, these are your own numbers.</p>
+  </div>
+  <div class="scr-foot" style="padding-bottom:28px">
+    <div class="orbrow"><button class="orb" data-go="paywall">Clean</button><div class="orbchip" id="orbChip">59.6 GB<span>384 items selected</span></div></div>
+  </div>
+</section>
+
+<!-- 11 PAYWALL -->
+<section class="scr scr--pay" data-id="paywall">
+  <div class="scr-top" style="padding-top:50px">
+    <div class="scr-nav"><button class="scr-x" id="payClose" title="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div>
+  </div>
+  <div class="scr-body">
+    <div class="pp-brand"><img src="img/icon.png" alt=""><b>Premium Plan</b></div>
+    <h2 class="pp-h" id="payH">Free up 59.6 GB of videos</h2>
+    <p class="pp-sub" id="paySub">Try it for free · 167.9 GB found on your iPhone</p>
+    <div class="feats" id="feats"></div>
+    <div class="pproof">
+      <div class="r"><span class="st">★★★★★</span>4.6 · 23K ratings on the App Store</div>
+      <div class="aw"><span>App of the Day</span><span>Red Dot 2024–2025</span><span>UX Design Awards</span></div>
+    </div>
+    <div class="plans3" id="plans3">
+      <button class="p3" data-v="monthly"><span class="lab">FLEXIBLE</span><span class="nm">Monthly</span><span class="pr">$7.99</span><span class="pm">per month</span></button>
+      <div class="p3wrap"><div class="trialtab">3-DAYS FREE TRIAL</div>
+        <button class="p3 mid on" data-v="annual"><span class="lab">POPULAR</span><span class="nm">Annual</span><span class="pr">$36.99</span><span class="pm">$3.08/mo <span class="savep">SAVE 61%</span></span></button></div>
+      <button class="p3" data-v="lifetime"><span class="lab">UNLIMITED</span><span class="nm">Lifetime</span><span class="pr">$89.99</span><span class="pm">pay once</span></button>
+    </div>
+    <div style="height:6px"></div>
+  </div>
+  <div class="scr-foot" style="padding-top:12px;padding-bottom:26px">
+    <p class="bill" id="payBill">Nothing charged today · $36.99/year after 3 days</p>
+    <button class="cbtn cyan2" id="payCta"><b id="payCtaB">Start 3-Days Free Trial</b><span id="payCtaS">Auto-renewable. Cancel anytime.</span></button>
+    <div class="plinks"><a>Restore Purchase</a><a>Terms</a><a>Privacy</a></div>
+  </div>
+</section>
+
+<!-- 12 OFFER -->
+<section class="scr scr--offer sheet" data-id="offer">
+  <div class="scr-top" style="padding-top:52px">
+    <div class="grab"></div>
+    <div class="scr-nav"><button class="scr-x" id="offClose" title="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button></div>
+    <h2 class="off-h">Here's exactly how<br>the free trial works</h2>
+    <p class="off-sub" id="offSub">Clean your 59.6 GB of videos today. Every date is below, so nothing is a surprise.</p>
+  </div>
+  <div class="scr-body">
+    <div class="tl">
+      <div class="tls now"><span class="tld"><svg viewBox="0 0 24 24" fill="none" stroke="#101426" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 11V7a5 5 0 0 1 9.9-1"/><rect x="4" y="11" width="16" height="10" rx="2"/></svg></span>
+        <span class="tlt"><small>TODAY</small><b>Premium unlocked</b><span id="tl1">Clean up without limitations. $0 today.</span></span></div>
+      <div class="tls"><span class="tld"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span>
+        <span class="tlt"><small id="tl2d">SAT, SEP 26</small><b>Last day to cancel for free</b><span>Cancel in Settings more than 24 hours before the trial ends and you pay nothing.</span></span></div>
+      <div class="tls"><span class="tld"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18"/></svg></span>
+        <span class="tlt"><small id="tl3d">SUN, SEP 27</small><b>Trial ends · $36.99 for the year</b><span>That's $3.08 a month. Renews yearly until you cancel.</span></span></div>
+    </div>
+    <div class="oopts" id="offerOpts">
+      <button class="oopt on" data-v="annual"><span><span class="otag">3 DAYS FREE</span><b>Annual</b><span>then $36.99/year</span></span><span class="pr"><b>$0 today</b><span>$3.08/mo</span></span></button>
+      <button class="oopt" data-v="monthly"><span><b>Monthly</b><span>No trial · billed monthly</span></span><span class="pr"><b>$7.99</b><span>per month</span></span></button>
+    </div>
+    <p class="srcnote">$36.99/year, $7.99/month and the 3-day trial are CleanMy®Phone's own App Store prices and terms. No countdown, no invented discount. <a onclick="openSrc()">Sources</a></p>
+    <div style="height:6px"></div>
+  </div>
+  <div class="scr-foot" style="padding-bottom:22px">
+    <button class="cbtn cyan2" id="offerCta"><b id="offerCtaB">Start My Free 3 Days</b><span id="offerCtaS">$0 today · cancel anytime</span></button>
+    <button class="cbtn ghost" data-go="perms" style="margin-top:4px">Not now</button>
+  </div>
+</section>
+
+<!-- 13 ALL SET + PERMISSIONS -->
+<section class="scr scr--brand" data-id="perms">
+  <div class="scr-top"></div>
+  <div class="scr-body">
+    <img class="appicon" src="img/icon.png" alt="" style="margin-top:90px;width:124px;height:124px">
+    <h2 class="set-h">You're all set</h2>
+    <p class="set-sub" id="setSub">Premium is on. Your clean-up starts with large media &amp; long videos.</p>
+    <div class="setcard"><img id="setImg" src="img/b-large.png" alt=""><span><b id="setB">59.6 GB ready to review</b><span id="setS">Largest videos · Screen recordings</span></span></div>
+  </div>
+  <div class="scr-foot"><button class="cbtn cyan" id="setCta" disabled>Start Cleaning</button></div>
+  <div class="dlgmask" id="notifDlg">
+    <div class="dlg">
+      <div class="dlg-b"><b>“CleanMy®Phone” Would Like to Send You Notifications</b><p>Notifications may include alerts, sounds, and icon badges. These can be configured in Settings.</p></div>
+      <div class="dlg-btns"><button data-nd>Don't Allow</button><button data-nd>Allow</button></div>
+    </div>
+  </div>
+  <div class="dlgmask" id="attDlg">
+    <div class="dlg">
+      <div class="dlg-b"><b>Allow “CleanMy®Phone” to track your activity across other companies' apps and websites?</b><p>This helps us understand what led you to CleanMy®Phone and how to communicate its value better.</p></div>
+      <div class="dlg-btns col"><button data-ad>Ask App Not to Track</button><button data-ad>Allow</button></div>
+    </div>
+  </div>
+</section>
+
+        </div><!-- /screenwrap -->
+      </div><!-- /phone-in -->
+    </div><!-- /phone -->
+
+    <div class="chips" id="chips"></div>
+    <p class="chiphint">Every chip lands on a warm prospect: the pick made, photo access granted, the scan finished and the paywall already personalized.</p>
+  </div>
+
+  <div class="st-panelcol"><div class="pn" id="panel"></div></div>
+
+</div><!-- /stage -->
+</div><!-- /pane-proto -->
+
+<!-- ========================= TAB 2 ========================= -->
+<div class="st-pane" id="pane-ba">
+<div class="bawrap">
+<h2 class="bahead">Ranked changes</h2>
+<p class="basub">Twelve changes to the sequence, highest expected impact first. The art direction is untouched throughout.</p>
+<table class="tbl">
+<tr><th>#</th><th>Priority</th><th>Change</th><th>What changed</th><th>Expected impact</th></tr>
+
+<tr><td>1</td><td><span class="pri f">Fix first</span></td><td><b>The scan runs before the price</b></td>
+<td>Your app already scans the library and shows “Your clutter”, but onboarding never shows it before the price. Photo access and the scan now come first, so the paywall follows a real number of gigabytes.</td>
+<td class="imp">CR +10–20%</td></tr>
+
+<tr><td>2</td><td><span class="pri f">Fix first</span></td><td><b>System prompts moved after the paywall</b></td>
+<td>The notification and tracking prompts popped up on the welcome screen, before anyone saw the app. They now appear after the paywall.</td>
+<td class="imp">CR +10–15%</td></tr>
+
+<tr><td>3</td><td><span class="pri h">High</span></td><td><b>Paywall names what was found</b></td>
+<td>The headline said “Try it for free” to everyone. It now says how much space the scan found in the category they picked.</td>
+<td class="imp">CR +15–20%</td></tr>
+
+<tr><td>4</td><td><span class="pri h">High</span></td><td><b>Second screen when the paywall closes</b></td>
+<td>Closing the paywall ended the flow. It now opens a screen that lays out the 3-day trial date by date, with your $7.99 monthly plan as the alternative.</td>
+<td class="imp">ARPU +10–15%</td></tr>
+
+<tr><td>5</td><td><span class="pri h">High</span></td><td><b>One question: what to clear first</b></td>
+<td>The flow asked nothing. One tap now picks a category, and the scan, the result list, the paywall and the trial screen all lead with it.</td>
+<td class="imp">CR +10–15%</td></tr>
+
+<tr><td>6</td><td><span class="pri h">High</span></td><td><b>Rating and awards next to the plans</b></td>
+<td>Your 4.6 from 23K ratings, App of the Day and Red Dot appear nowhere in the flow. They now sit above the plan cards.</td>
+<td class="imp">CR +10–15% · ARPU +2–5%</td></tr>
+
+<tr><td>7</td><td><span class="pri h">High</span></td><td><b>Yearly saving made visible</b></td>
+<td>The Annual card showed $36.99 with nothing to compare it to. It now shows $3.08 a month and SAVE 61% against Monthly.</td>
+<td class="imp">CR +5–15% · ARPU +10–15%</td></tr>
+
+<tr><td>8</td><td><span class="pri m">Medium</span></td><td><b>Privacy promise before photo access</b></td>
+<td>Photo access is now asked before the paywall. Your own on-device and no-upload promises sit right above the button.</td>
+<td class="imp">CR +5–10%</td></tr>
+
+<tr><td>9</td><td><span class="pri m">Medium</span></td><td><b>Real reviews during the scan</b></td>
+<td>Four reviews from your website now rotate while the scan runs. It is the one moment everyone waits.</td>
+<td class="imp">CR +5–10%</td></tr>
+
+<tr><td>10</td><td><span class="pri m">Medium</span></td><td><b>Billing line above the button</b></td>
+<td>The trial terms were only in the small grey line inside the button. “Nothing charged today · $36.99/year after 3 days” now sits above it.</td>
+<td class="imp">CR +3–8%</td></tr>
+
+<tr><td>11</td><td><span class="pri l">Low</span></td><td><b>Button follows the plan</b></td>
+<td>The button said “Start 3-Days Free Trial” whichever card was picked. It now matches Monthly and Lifetime too.</td>
+<td class="imp">CR +3–8%</td></tr>
+
+<tr><td>12</td><td><span class="pri l">Low</span></td><td><b>Progress dots on the tour</b></td>
+<td>The four feature screens gave no sense of how many were left. Four dots now sit above the button.</td>
+<td class="imp">CR +5–15%</td></tr>
+</table>
+<p class="disc">Impact ranges are Adapty&rsquo;s expected effect from teardowns and A/B tests across subscription apps &mdash; not measured lift for CleanMy®Phone. Every price, rating, quote and award in the prototype comes from CleanMy®Phone&rsquo;s own published material. <a onclick="openSrc()" style="cursor:pointer">Sources &amp; grounding &rarr;</a></p>
+</div>
+</div>
+</div>
+
+<!-- ========================= SOURCES ========================= -->
+<div class="mask" id="mask">
+  <div class="modal">
+    <button class="close" onclick="closeSrc()">×</button>
+    <h3>Sources &amp; grounding</h3>
+    <p style="font-size:12.5px;color:var(--st-ink2);margin:8px 0 0;line-height:1.55">Every number, price, quote and award in the prototype, with where it came from. Third-party pricing blogs were not used.</p>
+
+    <p class="grp">PRICES &amp; TRIAL</p>
+    <dl>
+      <dt>Annual $36.99 · Monthly $7.99</dt><dd>App Store In-App Purchase list: “CleanMyPhone: Yearly Access $36.99” and “CleanMyPhone: Monthly Access $7.99”. Both match your shipping paywall. <a href="https://apps.apple.com/us/app/cleanmy-phone-cleanup-storage/id1277110040" target="_blank">apps.apple.com/…/id1277110040</a></dd>
+      <dt>Lifetime $89.99</dt><dd>Read off your shipping paywall in the supplied frames (“UNLIMITED · Lifetime $89.99”). The App Store shows only its top ten purchases, and this one is not among them.</dd>
+      <dt>3-day free trial on the annual plan, charged within 24 hours before it ends</dt><dd>App Store description, Subscription Info: “a 1-year subscription with a free trial option that allows unlimited access to all features for three days… charged for renewal… within 24 hours before the end of the 3-day trial period.” The offer screen's dates are computed from today with that rule.</dd>
+      <dt>$3.08/mo · SAVE 61%</dt><dd>Arithmetic from two prices already on your paywall: $36.99 ÷ 12 = $3.08; $7.99 × 12 = $95.88, and $36.99 is 39% of that. Not a discount and not a strikethrough.</dd>
+      <dt>“Starting at $3.75/month”: <em>not used</em></dt><dd>macpaw.com/cleanmyphone says this, which does not match $36.99/year ($3.08/mo) on the App Store. Flagged for you rather than picked.</dd>
+      <dt>Legacy SKUs: <em>not used</em></dt><dd>The IAP list also carries Gemini Photos plans ($19.99, $39.99, $2.99, $4.99) and an “Unlimited access $34.99” item. These look like the previous app's plans and were left out.</dd>
+    </dl>
+
+    <p class="grp">PROOF</p>
+    <dl>
+      <dt>4.6 stars · 23K ratings</dt><dd>App Store product page header. macpaw.com states “4.6 rating for all versions, based on 21,784 user reviews”; the store figure was used.</dd>
+      <dt>7M downloads</dt><dd>macpaw.com/cleanmyphone badge “7 Million Downloads” and the line “Download the cleaner app that helped 7 million iPhone users”.</dd>
+      <dt>App of the Day · Red Dot 2024–2025 · UX Design Awards</dt><dd>Award badges on macpaw.com/cleanmyphone, as labelled there. <a href="https://macpaw.com/cleanmyphone" target="_blank">macpaw.com/cleanmyphone</a></dd>
+      <dt>Four reviews in the scan screen</dt><dd>Verbatim from the reviews block on macpaw.com/cleanmyphone, with names and countries as published: Carolita252 (Mexico), Jarkslig201 (France), Visualvanguard281 (United States), AlezocaTF281 (Brazil).</dd>
+      <dt>3,041 TB saved · 1,042,899 cleanups · 35,693,171 duplicates deleted: <em>not used</em></dt><dd>Cumulative counters on macpaw.com. Strong, but a live counter needs a live source; left for you to wire in.</dd>
+    </dl>
+
+    <p class="grp">THE SCAN AND THE RESULT</p>
+    <dl>
+      <dt>Sample library: 39,284 items; Duplicates 88.91 GB, Largest videos 44.43 GB, Screen recordings 15.21 GB, Blurred shots 9.63 GB, Screenshots 5.58 GB, Instagram 4.09 GB</dt><dd>MacPaw's own “Your clutter” and scanning screens on macpaw.com/cleanmyphone, reproduced as the demo persona. In the real app these are the user's scan results; nothing here is a projection.</dd>
+      <dt>Bubble layout and the glowing “Scanning” / “Clean” button</dt><dd>Your scanning and Your clutter screens on the same page.</dd>
+      <dt>Privacy lines on the photo access screen</dt><dd>App Store description: “CleanMy®Phone works fully on-device”, “doesn't save or upload your pictures anywhere”, “recover it from the Recently Deleted folder”. The one-line reason inside the system dialog is written for this prototype; your real purpose string should replace it.</dd>
+    </dl>
+
+    <p class="grp">IMAGERY &amp; FLOW</p>
+    <dl>
+      <dt>Feature tour photography</dt><dd>Cropped from your shipping onboarding screens in the supplied frames. The frames are ~1× at display size; your source files would be sharper.</dd>
+      <dt>App icon and the 3D lock</dt><dd>macpaw.com's CDN: the 1024px CleanMy®Phone icon and the privacy card artwork.</dd>
+      <dt>Every kept screen, headline, button label and both system prompts</dt><dd>The two capture frame strips supplied, reproduced verbatim.</dd>
+    </dl>
+  </div>
+</div>
+
+<script>
+/* ============ state, pre-filled with a warm persona ============ */
+var S = { pick:'large', access:true, plan:'annual', offerPlan:'annual' };
+
+/* MacPaw's own demo library (macpaw.com/cleanmyphone "Your clutter") */
+var CAT = {
+  dup:  {n:'Duplicates',        items:2938, gb:88.91, ic:'dup'},
+  vid:  {n:'Largest videos',    items:314,  gb:44.43, ic:'vid'},
+  rec:  {n:'Screen Recordings', items:70,   gb:15.21, ic:'rec'},
+  blur: {n:'Blurred Shots',     items:1394, gb:9.63,  ic:'blur'},
+  shot: {n:'Screenshots',       items:1113, gb:5.58,  ic:'shot'},
+  insta:{n:'Instagram',         items:290,  gb:4.09,  ic:'insta'}
+};
+var CAT_ORDER = ['dup','vid','rec','blur','shot','insta'];
+var SCANNED = 39284;
+var PICK = {
+  large:  {keys:['vid','rec'],  label:'large media & long videos', noun:'videos',      img:'img/b-large.png'},
+  similar:{keys:['dup'],        label:'similars & duplicates',     noun:'duplicates',  img:'img/b-similar.png'},
+  files:  {keys:['shot','blur'],label:'old screenshots & blurred shots', noun:'old shots', img:'img/b-files.png'},
+  ai:     {keys:[],             label:'your library, sorted by AI', noun:'',           img:'img/b-ai.png'}
+};
+var BUB = { dup:[110,178,160], vid:[262,160,118], rec:[58,58,76], blur:[204,56,80], shot:[258,268,72], insta:[150,290,60] };
+var ICONS = {
+  dup:'<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linejoin="round"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg>',
+  vid:'<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linejoin="round"><rect x="3" y="6" width="13" height="12" rx="2"/><path d="m16 10 5-3v10l-5-3"/></svg>',
+  rec:'<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="3.5" fill="#fff"/></svg>',
+  blur:'<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="8.5" stroke-dasharray="2.5 2.5"/><circle cx="12" cy="12" r="3"/></svg>',
+  shot:'<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M9 7h2M9 7v2M15 17h-2M15 17v-2"/></svg>',
+  insta:'<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8"><rect x="4" y="4" width="16" height="16" rx="4.5"/><circle cx="12" cy="12" r="3.6"/><circle cx="16.6" cy="7.4" r=".9" fill="#fff"/></svg>'
+};
+var FEATS = [
+  {k:'similar', t:'Find similar and duplicate photos', c:'teal', s:'<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linejoin="round"><rect x="8" y="8" width="11" height="11" rx="2"/><path d="M15 8V6.5A1.5 1.5 0 0 0 13.5 5h-7A1.5 1.5 0 0 0 5 6.5v7A1.5 1.5 0 0 0 6.5 15H8"/></svg>'},
+  {k:'files',   t:'Remove blurred images', c:'pink', s:'<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 7h14M9 7V5h6v2M7 7l1 13h8l1-13"/><path d="m10 11 4 4m0-4-4 4"/></svg>'},
+  {k:'ai',      t:'Organize by AI categories', c:'grey', s:'<svg viewBox="0 0 24 24" fill="#fff"><rect x="5" y="5" width="4" height="4" rx="1"/><rect x="10" y="5" width="4" height="4" rx="1"/><rect x="15" y="5" width="4" height="4" rx="1"/><rect x="5" y="10" width="4" height="4" rx="1"/><rect x="10" y="10" width="4" height="4" rx="1"/><rect x="5" y="15" width="4" height="4" rx="1"/><rect x="10" y="15" width="4" height="4" rx="1"/><rect x="15" y="15" width="4" height="4" rx="1"/></svg>'},
+  {k:'all',     t:'Clean up without limitations', c:'orange', s:'<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 7.5-2"/></svg>'}
+];
+/* real reviews, verbatim from macpaw.com/cleanmyphone */
+var QUOTES = [
+  ['I’ve compressed videos and I’m cleaning up my iPhone’s storage very well. I’m satisfied to the max.','Carolita252, Mexico'],
+  ['The best thing about the app is converting live photos to normal, I swear I saved about 40G of photos','AlezocaTF281, Brazil'],
+  ['Now, with the new update in the organizer mode, I can actually free space by compressing many files at once instead of deleting them.','Visualvanguard281, United States'],
+  ['I am very satisfied with the new version and also with the fact that the purchase of CleanMy®Phone is taken into account.','Jarkslig201, France']
+];
+
+function gb(x){ return (Math.round(x*10)/10).toFixed(1) + ' GB'; }
+function fmt(n){ return n.toLocaleString('en-US'); }
+function totalGB(){ return CAT_ORDER.reduce(function(a,k){ return a + CAT[k].gb; }, 0); }
+function totalItems(){ return CAT_ORDER.reduce(function(a,k){ return a + CAT[k].items; }, 0); }
+function pickGB(){ return PICK[S.pick].keys.reduce(function(a,k){ return a + CAT[k].gb; }, 0); }
+function pickItems(){ return PICK[S.pick].keys.reduce(function(a,k){ return a + CAT[k].items; }, 0); }
+function listOrder(){ var p = PICK[S.pick].keys; return p.concat(CAT_ORDER.filter(function(k){ return p.indexOf(k) < 0; })); }
+
+/* ============ router ============ */
+var ORDER = ['splash','welcome','large','similar','files','ai','pick','access','scan','result','paywall','offer','perms'];
+var LABEL = {splash:'Splash',welcome:'Welcome',large:'Tour 1',similar:'Tour 2',files:'Tour 3',ai:'Tour 4',pick:'Pick',
+  access:'Photo access',scan:'Scan',result:'Your clutter',paywall:'Paywall',offer:'Offer paywall',perms:'All set'};
+var scr = {}, hist = [], cur = 'splash', timers = [];
+document.querySelectorAll('.scr').forEach(function(s){ scr[s.dataset.id] = s; });
+
+function enter(id){
+  clearT();
+  document.querySelectorAll('.dlgmask').forEach(function(d){ d.classList.remove('on'); });
+  if(id === 'scan') runScan();
+  if(id === 'perms') runPerms();
+}
+function go(id, opts){
+  opts = opts || {};
+  if(id === cur) return;
+  var from = scr[cur], to = scr[id];
+  if(!opts.back) hist.push(cur);
+  from.classList.remove('is-active');
+  if(!to.classList.contains('sheet') && !from.classList.contains('sheet')) from.classList.add('is-past');
+  Object.keys(scr).forEach(function(k){ if(k!==id && k!==cur) scr[k].classList.remove('is-active'); });
+  to.classList.remove('is-past'); to.classList.add('is-active');
+  cur = id; syncScreen(); paintChips(); paintPanel(); enter(id);
+}
+function back(){
+  if(!hist.length) return;
+  var prev = hist.pop();
+  scr[cur].classList.remove('is-active');
+  scr[prev].classList.remove('is-past'); scr[prev].classList.add('is-active');
+  cur = prev; syncScreen(); paintChips(); paintPanel(); enter(prev);
+}
+function jump(id){
+  var i = ORDER.indexOf(id);
+  if(i > ORDER.indexOf('access') && !S.access) S.access = true;
+  Object.keys(scr).forEach(function(k){ scr[k].classList.add('nofx'); scr[k].classList.remove('is-active','is-past'); });
+  hist = ORDER.slice(0, i < 0 ? 0 : i);
+  scr[id].classList.add('is-active'); cur = id;
+  requestAnimationFrame(function(){ requestAnimationFrame(function(){ Object.keys(scr).forEach(function(k){ scr[k].classList.remove('nofx'); }); }); });
+  syncScreen(); paintChips(); paintPanel(); enter(id);
+}
+function clearT(){ timers.forEach(clearTimeout); timers = []; }
+
+/* ============ chips ============ */
+function paintChips(){
+  var c = document.getElementById('chips');
+  if(!c.childElementCount){
+    ORDER.forEach(function(id){
+      var b = document.createElement('button');
+      b.className = 'chip' + (id === 'offer' ? ' offerchip' : '');
+      b.textContent = LABEL[id]; b.dataset.id = id;
+      b.onclick = function(){ jump(id); };
+      c.appendChild(b);
+    });
+  }
+  c.querySelectorAll('.chip').forEach(function(b){ b.classList.toggle('on', b.dataset.id === cur); });
+}
+
+/* ============ consumption — every downstream echo re-renders from S ============ */
+function syncScreen(){
+  var P = PICK[S.pick], pg = pickGB(), pi = pickItems(), tg = totalGB(), isAI = S.pick === 'ai';
+
+  /* tour: "your pick" is not known yet on the tour, so nothing to echo there */
+  document.querySelectorAll('#pickList .pickrow').forEach(function(b){ b.classList.toggle('on', b.dataset.v === S.pick); });
+
+  /* access */
+  document.getElementById('accessSub').textContent = isAI
+    ? 'To sort your library by AI categories, CleanMy®Phone needs access to Photos.'
+    : 'To find your ' + P.label + ', CleanMy®Phone needs access to Photos.';
+
+  /* scan */
+  document.getElementById('scanFor').textContent = isAI ? 'Sorting your library into AI categories' : 'Starting with ' + P.label;
+
+  /* result */
+  document.getElementById('resTot').textContent = gb(tg);
+  document.getElementById('resSub').textContent = 'you can free across ' + fmt(totalItems()) + ' items';
+  var cl = document.getElementById('clist'); cl.innerHTML = '';
+  listOrder().forEach(function(k){
+    var c = CAT[k], mine = P.keys.indexOf(k) > -1;
+    var r = document.createElement('div'); r.className = 'crow' + (mine ? ' pick' : '');
+    r.innerHTML = '<span class="ci">' + ICONS[c.ic] + '</span><span class="cn"><b>' + fmt(c.items) + ' ' + c.n +
+      (mine && k === P.keys[0] ? '<span class="tagp">YOUR PICK</span>' : '') + '</b><span>' +
+      (mine ? fmt(c.items) + ' selected' : '0 selected') + '</span></span><span class="cg">' + gb(c.gb) + '</span>';
+    cl.appendChild(r);
+  });
+  document.getElementById('orbChip').innerHTML = isAI
+    ? gb(tg) + '<span>' + fmt(totalItems()) + ' items found</span>'
+    : gb(pg) + '<span>' + fmt(pi) + ' items selected</span>';
+
+  /* paywall */
+  var h, sub;
+  if(!S.access){ h = 'Try it for free'; sub = 'Scan and clean your whole library'; }
+  else if(isAI){ h = 'Free up ' + gb(tg); sub = 'Try it for free · ' + fmt(SCANNED) + ' photos sorted by AI'; }
+  else { h = 'Free up ' + gb(pg) + ' of ' + P.noun; sub = 'Try it for free · ' + gb(tg) + ' found on your iPhone'; }
+  document.getElementById('payH').textContent = h;
+  document.getElementById('paySub').textContent = sub;
+  var ft = document.getElementById('feats'); ft.innerHTML = '';
+  FEATS.slice().sort(function(a,b){ return (b.k === S.pick) - (a.k === S.pick); }).forEach(function(f){
+    var d = document.createElement('div'); d.className = 'feat';
+    d.innerHTML = '<span class="fic ' + f.c + '">' + f.s + '</span><span>' + f.t + '</span>'; ft.appendChild(d);
+  });
+  document.querySelectorAll('#plans3 .p3').forEach(function(b){ b.classList.toggle('on', b.dataset.v === S.plan); });
+  var cta = {
+    annual:  ['Start 3-Days Free Trial','Auto-renewable. Cancel anytime.','Nothing charged today · $36.99/year after 3 days'],
+    monthly: ['Subscribe for $7.99/month','Auto-renewable. Cancel anytime.','Charged today · renews monthly'],
+    lifetime:['Get Lifetime for $89.99','One-time purchase. No subscription.','Pay once · yours for good']
+  }[S.plan];
+  document.getElementById('payCtaB').textContent = cta[0];
+  document.getElementById('payCtaS').textContent = cta[1];
+  document.getElementById('payBill').textContent = cta[2];
+
+  /* offer — dates computed from today with the store's 24-hour rule */
+  var d0 = new Date(), dEnd = new Date(d0.getTime() + 3*864e5), dCancel = new Date(d0.getTime() + 2*864e5);
+  var fd = function(d){ return d.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'}).toUpperCase(); };
+  document.getElementById('tl2d').textContent = fd(dCancel);
+  document.getElementById('tl3d').textContent = fd(dEnd);
+  document.getElementById('offSub').textContent = (S.access
+    ? (isAI ? 'Sort and clean your ' + gb(tg) + ' today. ' : 'Clean your ' + gb(pg) + ' of ' + P.noun + ' today. ')
+    : 'Clean your whole library today. ') + 'Every date is below.';
+  document.querySelectorAll('#offerOpts .oopt').forEach(function(b){ b.classList.toggle('on', b.dataset.v === S.offerPlan); });
+  document.getElementById('offerCtaB').textContent = S.offerPlan === 'annual' ? 'Start My Free 3 Days' : 'Subscribe for $7.99/month';
+  document.getElementById('offerCtaS').textContent = S.offerPlan === 'annual' ? '$0 today · cancel anytime' : 'No trial · cancel anytime';
+
+  /* all set */
+  document.getElementById('setSub').textContent = isAI
+    ? 'Premium is on. Your library is sorted into AI categories.'
+    : 'Premium is on. Your clean-up starts with ' + P.label + '.';
+  document.getElementById('setImg').src = P.img;
+  document.getElementById('setB').textContent = S.access ? (isAI ? gb(tg) + ' ready to review' : gb(pg) + ' ready to review') : 'Ready to scan';
+  document.getElementById('setS').textContent = isAI ? 'Travel, People, Pets, Food and more'
+    : P.keys.map(function(k){ return CAT[k].n; }).join(' · ');
+}
+
+/* ============ scan — bubbles grow as the counter runs ============ */
+function runScan(){
+  var box = document.getElementById('bubbles'); box.innerHTML = '';
+  var P = PICK[S.pick], els = {};
+  CAT_ORDER.forEach(function(k){
+    var b = BUB[k], e = document.createElement('div');
+    e.className = 'bub' + (P.keys.indexOf(k) > -1 ? ' pick' : '');
+    e.style.left = b[0] + 'px'; e.style.top = b[1] + 'px'; e.style.width = b[2] + 'px'; e.style.height = b[2] + 'px';
+    e.innerHTML = '<b>' + CAT[k].n.replace(' ', '<br>') + '</b><span>0.0 GB</span>';
+    box.appendChild(e); els[k] = e;
+  });
+  var seq = P.keys.concat(CAT_ORDER.filter(function(k){ return P.keys.indexOf(k) < 0; }));
+  seq.forEach(function(k, i){ timers.push(setTimeout(function(){ els[k].classList.add('in'); }, 250 + i * 520)); });
+  var t0 = performance.now(), dur = 4200, orb = document.getElementById('scanOrb');
+  orb.textContent = 'Scanning'; orb.classList.add('pulse');
+  function tick(){
+    if(cur !== 'scan') return;
+    var p = Math.min(1, (performance.now() - t0) / dur), e = 1 - Math.pow(1 - p, 2);
+    document.getElementById('scanC').textContent = fmt(Math.round(SCANNED * e)) + ' / ' + fmt(SCANNED) + ' scanned' + (p < 1 ? '' : ' · done');
+    seq.forEach(function(k, i){
+      var start = (250 + i * 520) / dur, q = Math.max(0, Math.min(1, (p - start) / (1 - start)));
+      els[k].querySelector('span').textContent = gb(CAT[k].gb * (1 - Math.pow(1 - q, 2)));
+    });
+    if(p < 1) requestAnimationFrame(tick); else { orb.textContent = 'Done'; orb.classList.remove('pulse'); }
+  }
+  requestAnimationFrame(tick);
+  var qi = 0;
+  function showQ(i){ document.getElementById('qText').textContent = '“' + QUOTES[i][0] + '”'; document.getElementById('qWho').textContent = '— ' + QUOTES[i][1]; }
+  showQ(0);
+  [1,2,3].forEach(function(i){ timers.push(setTimeout(function(){ showQ(i); }, i * 1400)); });
+  timers.push(setTimeout(function(){ if(cur === 'scan') go('result'); }, 5600));
+}
+
+/* ============ permissions — their two prompts, after the paywall ============ */
+function runPerms(){
+  document.getElementById('setCta').disabled = true;
+  timers.push(setTimeout(function(){ if(cur === 'perms') document.getElementById('notifDlg').classList.add('on'); }, 550));
+}
+document.querySelectorAll('[data-nd]').forEach(function(b){ b.addEventListener('click', function(){
+  document.getElementById('notifDlg').classList.remove('on');
+  timers.push(setTimeout(function(){ document.getElementById('attDlg').classList.add('on'); }, 320));
+}); });
+document.querySelectorAll('[data-ad]').forEach(function(b){ b.addEventListener('click', function(){
+  document.getElementById('attDlg').classList.remove('on');
+  document.getElementById('setCta').disabled = false;
+}); });
+document.getElementById('setCta').addEventListener('click', function(){ jump('splash'); });
+
+/* ============ wiring ============ */
+document.querySelectorAll('[data-go]').forEach(function(b){ b.addEventListener('click', function(){ go(b.dataset.go); }); });
+document.querySelectorAll('[data-back]').forEach(function(b){ b.addEventListener('click', back); });
+document.getElementById('splash').addEventListener('click', function(){ go('welcome'); });
+document.querySelectorAll('#pickList .pickrow').forEach(function(b){
+  b.addEventListener('click', function(){ S.pick = b.dataset.v; syncScreen(); setTimeout(function(){ go('access'); }, 220); });
+});
+document.getElementById('accessBtn').addEventListener('click', function(){ document.getElementById('photoDlg').classList.add('on'); });
+document.querySelectorAll('[data-pa]').forEach(function(b){ b.addEventListener('click', function(){
+  document.getElementById('photoDlg').classList.remove('on');
+  if(b.dataset.pa === 'deny'){ S.access = false; syncScreen(); go('paywall'); }
+  else { S.access = true; syncScreen(); go('scan'); }
+}); });
+document.getElementById('accessSkip').addEventListener('click', function(){ S.access = false; syncScreen(); go('paywall'); });
+document.getElementById('scanOrb').addEventListener('click', function(){ go('result'); });
+document.querySelectorAll('#plans3 .p3').forEach(function(b){ b.addEventListener('click', function(){ S.plan = b.dataset.v; syncScreen(); }); });
+document.querySelectorAll('#offerOpts .oopt').forEach(function(b){ b.addEventListener('click', function(){ S.offerPlan = b.dataset.v; syncScreen(); }); });
+document.getElementById('payClose').addEventListener('click', function(){ go('offer'); });
+document.getElementById('offClose').addEventListener('click', function(){ go('perms'); });
+document.getElementById('payCta').addEventListener('click', function(){ go('perms'); });
+document.getElementById('offerCta').addEventListener('click', function(){ go('perms'); });
+
+/* ============ side panel ============ */
+var PANEL = {
+splash:{t:'Splash',tags:['kept'],
+ why:'Untouched. The brand screen is theirs and does its job in under a second. In the prototype it waits for a tap so a prospect can look at it.',
+ kept:'The magenta radial glow on deep purple, the 3D magenta icon with the white broom, the CleanMy<b>Phone</b> wordmark with “Phone” in the pink-to-violet gradient, and the small “by MacPaw” line.',
+ ship:'Screen 1, identical.',
+ iv:'Unchanged',il:'Brand moment, as shipped'},
+
+welcome:{t:'Welcome to CleanMy®Phone',tags:['kept','new'],
+ why:'The screen stays; what happened on it did not. In the shipping flow, tapping Continue fires <b>two system prompts back to back</b> (notifications, then tracking) before the user has seen a single feature. Both now wait until after the paywall. One line of proof is added above the legal text: <b>4.6 · 23K ratings</b>, <b>7M downloads</b>, <b>App of the Day</b>, all published by MacPaw and none shown anywhere in the current flow. Early proof matters most for cold traffic in a crowded category.',
+ kept:'The centred icon, the two-line “Welcome to / CleanMy®Phone” in light weight, the legal paragraph word for word with its underlined links, and the full-width cyan Continue button.',
+ ship:'Screen 2. Screens 3 and 4 were this same screen with the notification prompt and then the tracking prompt on top of it.',
+ iv:'CR +10–15%',il:'Permissions moved past the paywall'},
+
+large:{t:'Free space fast',tags:['kept'],
+ why:'Their four-screen feature tour is kept whole and in its original order. Each screen already shows a real result (a size, a check, a category), which is the right media choice for a utility. The one addition across the tour is a set of four progress dots above the button, so the user knows it ends.',
+ kept:'The collage of concert, fog, beach and sunset clips with the grey “18,2 GB” size badges, white check circles and durations; the two-line light headline; the lavender sub-line; and the frosted violet “I See” button.',
+ ship:'Screen 5, right after the two system prompts. Identical otherwise.',
+ iv:'CR +5–15%',il:'Progress cue on a multi-step tour'},
+
+similar:{t:'Clean up extra similars',tags:['kept'],
+ why:'Kept as shipped. The airplane card with the three-dot picker is the clearest “best shot” explanation in the flow.',
+ kept:'The single tall photo card with the “Similar” label, the three-circle selector with the centre check, the headline and sub-line verbatim, the back chevron, and the “Alright” button.',
+ ship:'Screen 6, identical.',
+ iv:'Unchanged',il:'Kept as shipped'},
+
+files:{t:'Remove unnecessary files',tags:['kept'],
+ why:'Kept as shipped. The 3×3 grid of Screenshot, Blurred, Old and Random tiles shows the whole clutter taxonomy in one glance.',
+ kept:'The nine-tile grid with the white type labels and check circles, the copy word for word (“meter readings, memes or notes”), and the “Got It” button.',
+ ship:'Screen 7, identical.',
+ iv:'Unchanged',il:'Kept as shipped'},
+
+ai:{t:'Organize by AI categories',tags:['kept'],
+ why:'Kept as shipped, including the “Let’s Start” label. That button now leads to one question instead of straight to the paywall.',
+ kept:'The Pets, Food, People and Travel 2×2 grid with the white labels, the headline and sub-line verbatim, and the “Let’s Start” button.',
+ ship:'Screen 8, the last screen before the paywall.',
+ iv:'Unchanged',il:'Kept as shipped'},
+
+pick:{t:'What should we clear first?',tags:['new'],
+ why:'The only question added. The shipping flow asks nothing, so the paywall can only say “Try it for free” to everyone. One tap here is consumed four times downstream: it picks the first bubble in the scan, tops the result list with a <b>YOUR PICK</b> tag, sets the paywall headline (“Free up 59.6 GB of videos”) and the offer sub-line. The four options are the four tour screens they just saw, in their own words. Auto-advances on tap.',
+ kept:'Built in their list idiom from the in-app “Your clutter” screen: frosted rows at their control radius, a square thumbnail on the left, a round selector on the right, and the photography from their own tour.',
+ ship:'Does not exist.',
+ iv:'CR +10–15%',il:'Personalization input the paywall uses'},
+
+access:{t:'Scan your library',tags:['moved','new'],
+ why:'CleanMy®Phone can only show value once it can read the library, and the app already computes a real per-library result. So Photos access moves <b>in front of</b> the paywall, behind a soft prompt that answers the obvious fear first. All three privacy lines are MacPaw’s own App Store claims. “Not now” and “Don’t Allow” both skip to the paywall with a generic headline, so no path is a dead end. The reason line inside the system dialog is written for the prototype; the app’s real purpose string replaces it.',
+ kept:'Their 3D privacy artwork from macpaw.com, the light centred headline, the cyan primary button, and the iOS dialog in the same lilac frosted rendering their shipping prompts use.',
+ ship:'Not in the onboarding. Photos access is requested later, inside the app.',
+ iv:'CR +5–10%',il:'Pre-permission prompt, privacy first'},
+
+scan:{t:'Your clutter · scanning',tags:['moved'],
+ why:'This is their own scanning screen, moved to the front. Nothing here is a fake progress bar: the app really counts items and sizes each category. The bubble for the pick grows first and is ringed in cyan, and the line under the counter names it. Four <b>real</b> reviews from macpaw.com rotate underneath, at the one moment everyone waits.',
+ kept:'The icon, “Your clutter” headline and “27,395 / 39,284 scanned” counter; the translucent violet bubbles sized by gigabytes with the name and size inside; and the glowing white-ringed “Scanning” orb.',
+ ship:'Exists in the app (MacPaw shows it on macpaw.com), but not in the onboarding, so it is never seen before the purchase decision.',
+ iv:'CR +10–15%',il:'Loader that really computes'},
+
+result:{t:'Your clutter · result',tags:['moved'],
+ why:'The payoff. A real total, the category they picked on top, and their own orb button to act on it. The numbers shown are MacPaw’s published demo library; in the app they are the user’s. No projection and no invented statistic: the promise made on the pick screen is paid in gigabytes the app already measured.',
+ kept:'The list layout with square category tiles, “1,113 Screenshots / 1,111 selected” two-line rows, right-aligned sizes, and the glowing “Clean” orb with the size-and-items chip beside it.',
+ ship:'Exists in the app, not in the onboarding. The flow went from the tour straight to “Try it for free”.',
+ iv:'CR +10–20%',il:'The payoff, before the price'},
+
+paywall:{t:'Paywall',tags:['kept'],
+ why:'Their composition, untouched: X top-left, icon plus the gradient “Premium Plan”, four icon rows, three cards with Annual raised and a blue trial tab, and the two-line cyan button. What changed: the headline now states what the scan found in their pick; the empty band between rows and cards now carries their rating and awards; the Annual card shows <b>$3.08/mo · SAVE 61%</b>, both arithmetic from prices already on screen; a billing line sits above the button; and the button text follows whichever card is picked.',
+ kept:'The indigo-to-violet gradient with the magenta glow bottom-right, the teal, pink, grey and orange 3D icon circles, the FLEXIBLE / POPULAR / UNLIMITED labels, the blue “3-DAYS FREE TRIAL” tab, the “Auto-renewable. Cancel anytime.” sub-line, and Restore Purchase · Terms · Privacy. Try picking Monthly or Lifetime.',
+ ship:'Screen 9, straight after the tour. Same headline for everyone, no proof, and the same trial button text on all three cards.',
+ iv:'CR +15–20%',il:'Paywall names what the scan found'},
+
+offer:{t:'Offer paywall, on close',tags:['new'],
+ why:'Closing the shipping paywall ends the funnel. This sheet catches it with a <b>different archetype</b>: a trial timeline on the same annual SKU, which the store confirms carries the 3-day trial. It answers the objection their own App Store reviews raise (being charged before noticing) with real dates, computed from today using the store’s 24-hour rule. The downsell is the real <b>$7.99/month</b> plan. No countdown and no strikethrough, because there is no discount.',
+ kept:'Their gradient, frosted rows, cyan selection border and two-line cyan button.',
+ ship:'Nothing. The X closes the paywall and that is the end.',
+ iv:'ARPU +10–15%',il:'Second-chance screen on close'},
+
+perms:{t:'You’re all set',tags:['moved','merged'],
+ why:'Both system prompts from the welcome screen, moved here, word for word. They now run after the decision, on a screen that tells the user where their clean-up starts. The prompts are the app’s calls, not the flow’s.',
+ kept:'Their notification prompt and tracking prompt copy verbatim, in their lilac dialog style with blue buttons, over the magenta brand glow.',
+ ship:'Screens 3 and 4, on top of the welcome screen, before any feature.',
+ iv:'CR +10–15%',il:'Permissions after the paywall'}
+};
+
+function paintPanel(){
+  var d = PANEL[cur]; if(!d) return;
+  var n = ORDER.indexOf(cur) + 1;
+  var tags = d.tags.map(function(t){ return '<span class="tg ' + t + '">' + t + '</span>'; }).join('');
+  document.getElementById('panel').innerHTML =
+    '<div class="pn-n">Step ' + n + ' of ' + ORDER.length + '</div>' +
+    '<h3 class="pn-t">' + d.t + '</h3>' +
+    '<div class="pn-tags">' + tags + '</div>' +
+    '<div class="pn-sec"><div class="pn-lab">Rationale</div><p class="pn-p">' + d.why + '</p></div>' +
+    '<div class="pn-sec"><div class="pn-lab">Kept from your app</div><p class="pn-p">' + d.kept + '</p></div>' +
+    '<div class="pn-sec"><div class="pn-lab">In the shipping flow</div><p class="pn-p">' + d.ship + '</p></div>' +
+    '<div class="pn-imp"><div class="v">' + d.iv + '</div><div class="l">' + d.il + '</div></div>' +
+    '<div class="pn-foot"><b>Grounding.</b> Impact ranges are Adapty’s expected effect from teardowns and A/B ' +
+    'tests across subscription apps — not measured lift for CleanMy®Phone. Prices, ratings, quotes and awards ' +
+    'come from CleanMy®Phone’s own App Store listing, marketing site and in-app screens; ' +
+    'see <a onclick="openSrc()">Sources &amp; grounding</a>.</div>';
+}
+
+/* ============ tabs + modal ============ */
+document.querySelectorAll('.st-tab').forEach(function(b){
+  b.addEventListener('click', function(){
+    document.querySelectorAll('.st-tab').forEach(function(x){ x.classList.remove('on'); });
+    document.querySelectorAll('.st-pane').forEach(function(x){ x.classList.remove('on'); });
+    b.classList.add('on'); document.getElementById('pane-' + b.dataset.tab).classList.add('on'); window.scrollTo(0,0);
+  });
+});
+function openSrc(){ document.getElementById('mask').classList.add('on'); }
+function closeSrc(){ document.getElementById('mask').classList.remove('on'); }
+document.getElementById('mask').addEventListener('click', function(e){ if(e.target.id === 'mask') closeSrc(); });
+document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeSrc(); });
+
+/* ============ boot ============ */
+scr.splash.classList.add('is-active');
+syncScreen(); paintChips(); paintPanel();
+</script>
+</body>
+</html>
